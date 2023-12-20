@@ -5,7 +5,7 @@ from yaml.loader import SafeLoader
 def main():
     st.write('Hello World!')
 
-    with open('../config.yaml') as file:
+    with open('config.yaml') as file:
         config = yaml.load(file, Loader=SafeLoader)
 
     st.write(config)
