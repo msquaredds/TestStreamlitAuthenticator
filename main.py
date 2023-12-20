@@ -1,11 +1,14 @@
 import streamlit as st
 import yaml
 from yaml.loader import SafeLoader
-import streamlit-authenticator-test as stauth
+stauth = __import__("streamlit-authenticator-test")
+
 
 def main():
     st.write('Hello World!')
 
+    # use for testing, but ideally we want to store and load from a more
+    # secure location, like a database
     with open('config.yaml') as file:
         config = yaml.load(file, Loader=SafeLoader)
 
