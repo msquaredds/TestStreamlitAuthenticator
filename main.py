@@ -1,7 +1,7 @@
 import streamlit as st
 import yaml
 from yaml.loader import SafeLoader
-import streamlit_authenticator as stauth
+#import streamlit_authenticator as stauth
 #import importlib
 #stauth = importlib.import_module("streamlit_authenticator")
 #stauth = __import__("streamlit-authenticator-test")
@@ -16,6 +16,11 @@ def main():
         config = yaml.load(file, Loader=SafeLoader)
 
     st.write(config)
+
+    import os
+    files = [f for f in os.listdir('.') if os.path.isfile(f)]
+    for f in files:
+        st.write(f)
 
     authenticator = stauth.Authenticate(
         config['credentials'],
