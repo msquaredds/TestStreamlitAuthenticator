@@ -1,14 +1,17 @@
 import streamlit as st
 import yaml
 from yaml.loader import SafeLoader
-import StreamlitAuth as stauth
-#import importlib
-#stauth = importlib.import_module("streamlit_authenticator")
-#stauth = __import__("streamlit-authenticator-test")
+#import StreamlitAuth as stauth
 
 
 def main():
     st.write('Hello World!')
+
+    import pkg_resources
+    installed_packages = pkg_resources.working_set
+    installed_packages_list = sorted(["%s==%s" % (i.key, i.version)
+                                      for i in installed_packages])
+    print(installed_packages_list)
 
     # use for testing, but ideally we want to store and load from a more
     # secure location, like a database
