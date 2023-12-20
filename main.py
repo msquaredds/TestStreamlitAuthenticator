@@ -3,7 +3,7 @@ import yaml
 from yaml.loader import SafeLoader
 #import streamlit_authenticator as stauth
 import importlib
-stauth = importlib.import_module("streamlit-authenticator")
+stauth = importlib.import_module("Streamlit-Authenticator")
 #stauth = __import__("streamlit-authenticator-test")
 
 
