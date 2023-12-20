@@ -10,6 +10,9 @@ def main():
     import sys
     st.write(sys.version)
 
+    import site
+    st.write(site.getsitepackages())
+
     import pkg_resources
     installed_packages = pkg_resources.working_set
     installed_packages_list = sorted(["%s==%s" % (i.key, i.version)
