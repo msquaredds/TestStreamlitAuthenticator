@@ -1,7 +1,7 @@
 import streamlit as st
 import yaml
 from yaml.loader import SafeLoader
-import streamlitauth as stauth
+#import streamlitauth as stauth
 
 
 def main():
