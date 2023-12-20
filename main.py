@@ -11,7 +11,7 @@ def main():
     installed_packages = pkg_resources.working_set
     installed_packages_list = sorted(["%s==%s" % (i.key, i.version)
                                       for i in installed_packages])
-    print(installed_packages_list)
+    st.write(installed_packages_list)
 
     # use for testing, but ideally we want to store and load from a more
     # secure location, like a database
