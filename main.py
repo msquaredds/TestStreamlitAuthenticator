@@ -1,18 +1,11 @@
 import streamlit as st
 import yaml
 from yaml.loader import SafeLoader
-import sys
-import site
-sys.path.append(site.getsitepackages())
-import streamlitauth as stauth
+#import streamlitauth as stauth
 
 
 def main():
     st.write('Hello World!')
-
-    st.write(sys.version)
-
-    st.write(site.getsitepackages())
 
     import pkg_resources
     installed_packages = pkg_resources.working_set
