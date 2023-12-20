@@ -1,9 +1,10 @@
 import streamlit as st
 import yaml
 from yaml.loader import SafeLoader
-import importlib
-stauth = importlib.import_module("streamlit-authenticator-test")
-# stauth = __import__("streamlit-authenticator-test")
+import streamlit_authenticator as stauth
+#import importlib
+#stauth = importlib.import_module("streamlit-authenticator-test")
+#stauth = __import__("streamlit-authenticator-test")
 
 
 def main():
