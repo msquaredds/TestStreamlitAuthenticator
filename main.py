@@ -17,18 +17,13 @@ def main():
 
     st.write(config)
 
-    import os
-    files = [f for f in os.listdir('.') if os.path.isfile(f)]
-    for f in files:
-        st.write(f)
-
-    authenticator = stauth.Authenticate(
-        config['credentials'],
-        config['cookie']['name'],
-        config['cookie']['key'],
-        config['cookie']['expiry_days'],
-        config['preauthorized']
-    )
+    # authenticator = stauth.Authenticate(
+    #     config['credentials'],
+    #     config['cookie']['name'],
+    #     config['cookie']['key'],
+    #     config['cookie']['expiry_days'],
+    #     config['preauthorized']
+    # )
 
 
 if __name__ == '__main__':
