@@ -1,7 +1,10 @@
 import streamlit as st
 import yaml
 from yaml.loader import SafeLoader
-import streamlitauth
+try:
+    import streamlitauth
+except ImportError as e:
+    st.error(e)
 
 
 def main():
@@ -9,9 +12,10 @@ def main():
 
     import pkg_resources
     installed_packages = pkg_resources.working_set
-    installed_packages_list = sorted(["%s==%s" % (i.key, i.version)
-                                      for i in installed_packages])
-    st.write(installed_packages_list)
+    #installed_packages_list = sorted(["%s==%s" % (i.key, i.version)
+    #                                  for i in installed_packages])
+    #st.write(installed_packages_list)
+    st.write(installed_packages['streamlitauth'])
 
     # use for testing, but ideally we want to store and load from a more
     # secure location, like a database
