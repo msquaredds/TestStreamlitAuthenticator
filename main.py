@@ -41,6 +41,8 @@ def main():
     except Exception as e:
         st.error(e)
 
+    st.write(config['credentials'])
+
 
 if __name__ == '__main__':
     main()
