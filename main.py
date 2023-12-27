@@ -52,7 +52,7 @@ def main():
     except Exception as e:
         st.error(e)
 
-    st.write(config['credentials'])
+    st.write(config)
 
 
 if __name__ == '__main__':
