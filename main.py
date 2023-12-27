@@ -1,7 +1,7 @@
 import streamlit as st
 import yaml
 from yaml.loader import SafeLoader
-import StreamlitAuth
+import StreamlitAuth as stauth
 
 
 def main():
@@ -23,13 +23,13 @@ def main():
 
     st.write(config)
 
-    # authenticator = stauth.Authenticate(
-    #     config['credentials'],
-    #     config['cookie']['name'],
-    #     config['cookie']['key'],
-    #     config['cookie']['expiry_days'],
-    #     config['preauthorized']
-    # )
+    authenticator = stauth.Authenticate(
+        config['credentials'],
+        config['cookie']['name'],
+        config['cookie']['key'],
+        config['cookie']['expiry_days'],
+        config['preauthorized']
+    )
 
 
 if __name__ == '__main__':
