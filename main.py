@@ -5,16 +5,16 @@ import StreamlitAuth as stauth
 
 
 def main():
-    st.write('Hello World!')
+    # st.write('Hello World!')
 
-    import pkg_resources
-    installed_packages = pkg_resources.working_set
+    # import pkg_resources
+    # installed_packages = pkg_resources.working_set
     # installed_packages_list = sorted(["%s==%s" % (i.key, i.version)
     #                                   for i in installed_packages])
     # st.write(installed_packages_list)
-    streamlit_package = [i for i in installed_packages if i.key ==
-                         'streamlitauth']
-    st.write(streamlit_package)
+    # streamlit_package = [i for i in installed_packages if i.key ==
+    #                      'streamlitauth']
+    # st.write(streamlit_package)
 
     # use for testing, but ideally we want to store and load from a more
     # secure location, like a database
@@ -30,6 +30,16 @@ def main():
         config['cookie']['expiry_days'],
         config['preauthorized']
     )
+
+    ##########################################################
+    # Sign Up
+    ##########################################################
+    try:
+        if authenticator.register_user('Register user',
+                                       preauthorization=False):
+            st.success('User registered successfully')
+    except Exception as e:
+        st.error(e)
 
 
 if __name__ == '__main__':
