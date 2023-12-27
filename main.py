@@ -32,11 +32,22 @@ def main():
     )
 
     ##########################################################
-    # Sign Up
+    # Sign Up - No Preauthorization
+    ##########################################################
+    # try:
+    #     if authenticator.register_user('Register user',
+    #                                    preauthorization=False):
+    #         st.success('User registered successfully')
+    # except Exception as e:
+    #     st.error(e)
+    #
+    # st.write(config['credentials'])
+
+    ##########################################################
+    # Sign Up - Yes Preauthorization
     ##########################################################
     try:
-        if authenticator.register_user('Register user',
-                                       preauthorization=False):
+        if authenticator.register_user('Register user'):
             st.success('User registered successfully')
     except Exception as e:
         st.error(e)
