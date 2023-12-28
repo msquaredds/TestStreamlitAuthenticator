@@ -1,3 +1,4 @@
+import datetime
 import streamlit as st
 import yaml
 from yaml.loader import SafeLoader
@@ -63,6 +64,8 @@ def main():
         authenticator.logout('Logout', 'main', key='unique_key')
         st.write(f'Welcome *{st.session_state["name"]}*')
         st.title('Some content')
+        authenticator.token['exp_date'] = datetime.fromtimestamp(
+            authenticator.token['exp_date'])
         st.write(authenticator.token)
     elif st.session_state["authentication_status"] is False:
         st.error('Username/password is incorrect')
