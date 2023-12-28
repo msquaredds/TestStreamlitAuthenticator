@@ -55,10 +55,22 @@ def main():
     # st.write(config)
 
     ##########################################################
-    # Login
+    # Login / Logout
     ##########################################################
-    authenticator.login('Login', 'main')
+    # authenticator.login('Login', 'main')
+    #
+    # if st.session_state["authentication_status"]:
+    #     authenticator.logout('Logout', 'main', key='unique_key')
+    #     st.write(f'Welcome *{st.session_state["name"]}*')
+    #     st.title('Some content')
+    # elif st.session_state["authentication_status"] is False:
+    #     st.error('Username/password is incorrect')
+    # elif st.session_state["authentication_status"] is None:
+    #     st.warning('Please enter your username and password')
 
+    ##########################################################
+    # Forgot Username
+    ##########################################################
     try:
         username_of_forgotten_username, email_of_forgotten_username = authenticator.forgot_username(
             'Forgot username')
@@ -69,15 +81,6 @@ def main():
             st.error('Email not found')
     except Exception as e:
         st.error(e)
-
-    if st.session_state["authentication_status"]:
-        authenticator.logout('Logout', 'main', key='unique_key')
-        st.write(f'Welcome *{st.session_state["name"]}*')
-        st.title('Some content')
-    elif st.session_state["authentication_status"] is False:
-        st.error('Username/password is incorrect')
-    elif st.session_state["authentication_status"] is None:
-        st.warning('Please enter your username and password')
 
 
 
