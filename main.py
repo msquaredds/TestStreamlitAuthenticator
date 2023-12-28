@@ -57,16 +57,16 @@ def main():
     ##########################################################
     # Login / Logout / Authentication Status
     ##########################################################
-    # authenticator.login('Login', 'main')
-    #
-    # if st.session_state["authentication_status"]:
-    #     authenticator.logout('Logout', 'main', key='unique_key')
-    #     st.write(f'Welcome *{st.session_state["name"]}*')
-    #     st.title('Some content')
-    # elif st.session_state["authentication_status"] is False:
-    #     st.error('Username/password is incorrect')
-    # elif st.session_state["authentication_status"] is None:
-    #     st.warning('Please enter your username and password')
+    authenticator.login('Login', 'main')
+
+    if st.session_state["authentication_status"]:
+        authenticator.logout('Logout', 'main', key='unique_key')
+        st.write(f'Welcome *{st.session_state["name"]}*')
+        st.title('Some content')
+    elif st.session_state["authentication_status"] is False:
+        st.error('Username/password is incorrect')
+    elif st.session_state["authentication_status"] is None:
+        st.warning('Please enter your username and password')
 
     ##########################################################
     # Forgot Username
@@ -102,8 +102,6 @@ def main():
     ##########################################################
     # Change Password
     ##########################################################
-    authenticator.login('Login', 'main')
-
     if st.session_state["authentication_status"]:
         try:
             if authenticator.reset_password(st.session_state["username"],
