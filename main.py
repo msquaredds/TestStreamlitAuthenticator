@@ -100,14 +100,24 @@ def main():
     #     st.error(e)
 
     ##########################################################
-    # Change Password
+    # Change Password (run login above too)
+    ##########################################################
+    # if st.session_state["authentication_status"]:
+    #     try:
+    #         if authenticator.reset_password(st.session_state["username"],
+    #                                         'Reset password'):
+    #             st.success('Password modified successfully')
+    #             st.write(config['credentials'])
+    #     except Exception as e:
+    #         st.error(e)
+
+    ##########################################################
+    # Change User's Name or Email (run login above too)
     ##########################################################
     if st.session_state["authentication_status"]:
         try:
-            if authenticator.reset_password(st.session_state["username"],
-                                            'Reset password'):
-                st.success('Password modified successfully')
-                st.write(config['credentials'])
+            if authenticator.update_user_details(st.session_state["username"], 'Update user details'):
+                st.success('Entries updated successfully')
         except Exception as e:
             st.error(e)
 
