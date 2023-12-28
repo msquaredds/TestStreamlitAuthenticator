@@ -63,6 +63,7 @@ def main():
         authenticator.logout('Logout', 'main', key='unique_key')
         st.write(f'Welcome *{st.session_state["name"]}*')
         st.title('Some content')
+        st.write(authenticator.token)
     elif st.session_state["authentication_status"] is False:
         st.error('Username/password is incorrect')
     elif st.session_state["authentication_status"] is None:
@@ -114,13 +115,13 @@ def main():
     ##########################################################
     # Change User's Name or Email (run login above too)
     ##########################################################
-    if st.session_state["authentication_status"]:
-        try:
-            if authenticator.update_user_details(st.session_state["username"], 'Update user details'):
-                st.success('Entries updated successfully')
-                st.write(authenticator.credentials['usernames'][st.session_state["username"]])
-        except Exception as e:
-            st.error(e)
+    # if st.session_state["authentication_status"]:
+    #     try:
+    #         if authenticator.update_user_details(st.session_state["username"], 'Update user details'):
+    #             st.success('Entries updated successfully')
+    #             st.write(authenticator.credentials['usernames'][st.session_state["username"]])
+    #     except Exception as e:
+    #         st.error(e)
 
 
 
