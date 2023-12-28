@@ -55,7 +55,7 @@ def main():
     # st.write(config)
 
     ##########################################################
-    # Login / Logout
+    # Login / Logout / Authentication Status
     ##########################################################
     # authenticator.login('Login', 'main')
     #
@@ -85,19 +85,30 @@ def main():
     ##########################################################
     # Forgot Password
     ##########################################################
-    try:
-        (username_of_forgotten_password, email_of_forgotten_password,
-         new_random_password) = authenticator.forgot_password('Forgot password')
-        if username_of_forgotten_password:
-            st.success('New password to be sent securely')
-            st.write(username_of_forgotten_password)
-            st.write(email_of_forgotten_password)
-            st.write(new_random_password)
-            # Random password should be transferred to user securely
-        else:
-            st.error('Username not found')
-    except Exception as e:
-        st.error(e)
+    # try:
+    #     (username_of_forgotten_password, email_of_forgotten_password,
+    #      new_random_password) = authenticator.forgot_password('Forgot password')
+    #     if username_of_forgotten_password:
+    #         st.success('New password to be sent securely')
+    #         st.write(username_of_forgotten_password)
+    #         st.write(email_of_forgotten_password)
+    #         st.write(new_random_password)
+    #         # Random password should be transferred to user securely
+    #     else:
+    #         st.error('Username not found')
+    # except Exception as e:
+    #     st.error(e)
+
+    ##########################################################
+    # Change Password
+    ##########################################################
+    if st.session_state["authentication_status"]:
+        try:
+            if authenticator.reset_password(st.session_state["username"],
+                                            'Reset password'):
+                st.success('Password modified successfully')
+        except Exception as e:
+            st.error(e)
 
 
 
