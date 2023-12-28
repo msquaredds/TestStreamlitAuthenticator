@@ -57,32 +57,34 @@ def main():
     ##########################################################
     # Login / Logout
     ##########################################################
-    # authenticator.login('Login', 'main')
-    #
-    # if st.session_state["authentication_status"]:
-    #     authenticator.logout('Logout', 'main', key='unique_key')
-    #     st.write(f'Welcome *{st.session_state["name"]}*')
-    #     st.title('Some content')
-    # elif st.session_state["authentication_status"] is False:
-    #     st.error('Username/password is incorrect')
-    # elif st.session_state["authentication_status"] is None:
-    #     st.warning('Please enter your username and password')
+    authenticator.login('Login', 'main')
+
+    if st.session_state["authentication_status"]:
+        authenticator.logout('Logout', 'main', key='unique_key')
+        st.write(f'Welcome *{st.session_state["name"]}*')
+        st.title('Some content')
+    elif st.session_state["authentication_status"] is False:
+        st.error('Username/password is incorrect')
+    elif st.session_state["authentication_status"] is None:
+        st.warning('Please enter your username and password')
 
     ##########################################################
     # Forgot Username
     ##########################################################
-    try:
-        username_of_forgotten_username, email_of_forgotten_username = authenticator.forgot_username(
-            'Forgot username')
-        if username_of_forgotten_username:
-            st.success('Username to be sent securely')
-            # Username should be transferred to user securely
-        else:
-            st.error('Email not found')
-    except Exception as e:
-        st.error(e)
+    # try:
+    #     username_of_forgotten_username, email_of_forgotten_username = authenticator.forgot_username(
+    #         'Forgot username')
+    #     if username_of_forgotten_username:
+    #         st.success('Username to be sent securely')
+    #         # Username should be transferred to user securely
+    #     else:
+    #         st.error('Email not found')
+    # except Exception as e:
+    #     st.error(e)
 
-
+    ##########################################################
+    # Forgot Password
+    ##########################################################
 
 
 if __name__ == '__main__':
