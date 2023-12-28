@@ -90,6 +90,8 @@ def main():
          new_random_password) = authenticator.forgot_password('Forgot password')
         if username_of_forgotten_password:
             st.success('New password to be sent securely')
+            st.write(username_of_forgotten_password)
+            st.write(email_of_forgotten_password)
             st.write(new_random_password)
             # Random password should be transferred to user securely
         else:
