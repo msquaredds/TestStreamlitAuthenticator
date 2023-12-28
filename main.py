@@ -109,6 +109,7 @@ def main():
             if authenticator.reset_password(st.session_state["username"],
                                             'Reset password'):
                 st.success('Password modified successfully')
+                st.write(config['credentials'])
         except Exception as e:
             st.error(e)
 
