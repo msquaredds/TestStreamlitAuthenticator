@@ -1,6 +1,6 @@
-import datetime
 import streamlit as st
 import yaml
+from datetime import date
 from yaml.loader import SafeLoader
 import StreamlitAuth as stauth
 
@@ -65,7 +65,7 @@ def main():
         st.write(f'Welcome *{st.session_state["name"]}*')
         st.title('Some content')
         st.write(authenticator.token)
-        authenticator.token['exp_date'] = datetime.fromtimestamp(
+        authenticator.token['exp_date'] = date.fromtimestamp(
             authenticator.token['exp_date'])
     elif st.session_state["authentication_status"] is False:
         st.error('Username/password is incorrect')
