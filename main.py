@@ -102,6 +102,8 @@ def main():
     ##########################################################
     # Change Password
     ##########################################################
+    authenticator.login('Login', 'main')
+
     if st.session_state["authentication_status"]:
         try:
             if authenticator.reset_password(st.session_state["username"],
