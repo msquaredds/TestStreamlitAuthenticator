@@ -34,14 +34,14 @@ def main():
     ##########################################################
     # Sign Up - No Preauthorization
     ##########################################################
-    try:
-        if authenticator.register_user('Register user',
-                                       preauthorization=False):
-            st.success('User registered successfully')
-    except Exception as e:
-        st.error(e)
-
-    st.write(config['credentials'])
+    # try:
+    #     if authenticator.register_user('Register user',
+    #                                    preauthorization=False):
+    #         st.success('User registered successfully')
+    # except Exception as e:
+    #     st.error(e)
+    #
+    # st.write(config['credentials'])
 
     ##########################################################
     # Sign Up - Yes Preauthorization
@@ -58,6 +58,17 @@ def main():
     # Login
     ##########################################################
     authenticator.login('Login', 'main')
+
+    try:
+        username_of_forgotten_username, email_of_forgotten_username = authenticator.forgot_username(
+            'Forgot username')
+        if username_of_forgotten_username:
+            st.success('Username to be sent securely')
+            # Username should be transferred to user securely
+        else:
+            st.error('Email not found')
+    except Exception as e:
+        st.error(e)
 
     if st.session_state["authentication_status"]:
         authenticator.logout('Logout', 'main', key='unique_key')
