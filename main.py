@@ -64,9 +64,9 @@ def main():
         authenticator.logout('Logout', 'main', key='unique_key')
         st.write(f'Welcome *{st.session_state["name"]}*')
         st.title('Some content')
-        st.write(authenticator.token)
         authenticator.token['exp_date'] = date.fromtimestamp(
             authenticator.token['exp_date'])
+        st.write(authenticator.token)
     elif st.session_state["authentication_status"] is False:
         st.error('Username/password is incorrect')
     elif st.session_state["authentication_status"] is None:
