@@ -118,6 +118,7 @@ def main():
         try:
             if authenticator.update_user_details(st.session_state["username"], 'Update user details'):
                 st.success('Entries updated successfully')
+                st.write(authenticator.credentials['usernames'][st.session_state["username"]])
         except Exception as e:
             st.error(e)
 
