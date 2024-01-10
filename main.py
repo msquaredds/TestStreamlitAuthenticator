@@ -24,13 +24,39 @@ def main():
 
     st.write(config)
 
+    # put usernames and emails into a list
+    usernames = [i for i in config['credentials']['usernames'].keys()]
+    emails = [config['credentials']['usernames'][i]['email']
+              for i in usernames]
+
+    st.write(usernames)
+    st.write(emails)
+
     authenticator = stauth.Authenticate(
-        config['credentials'],
+        usernames,
+        emails,
         config['cookie']['name'],
         config['cookie']['key'],
-        config['cookie']['expiry_days'],
-        config['preauthorized']
+        config['cookie']['expiry_days']
     )
+
+    ##########################################################
+    # Sign Up
+    ##########################################################
+    authenticator.register_user('hi')
+
+
+
+
+
+    ######################################################################
+    ######################################################################
+    ######################################################################
+    # EVERYTHING BELOW HERE IS TESTING FOR THE ORIGINAL PACKAGE
+    ######################################################################
+    ######################################################################
+    ######################################################################
+
 
     ##########################################################
     # Sign Up - No Preauthorization
@@ -58,19 +84,19 @@ def main():
     ##########################################################
     # Login / Logout / Authentication Status
     ##########################################################
-    authenticator.login('Login', 'main')
-
-    if st.session_state["authentication_status"]:
-        authenticator.logout('Logout', 'main', key='unique_key')
-        st.write(f'Welcome *{st.session_state["name"]}*')
-        st.title('Some content')
-        authenticator.token['exp_date'] = date.fromtimestamp(
-            authenticator.token['exp_date'])
-        st.write(authenticator.token)
-    elif st.session_state["authentication_status"] is False:
-        st.error('Username/password is incorrect')
-    elif st.session_state["authentication_status"] is None:
-        st.warning('Please enter your username and password')
+    # authenticator.login('Login', 'main')
+    #
+    # if st.session_state["authentication_status"]:
+    #     authenticator.logout('Logout', 'main', key='unique_key')
+    #     st.write(f'Welcome *{st.session_state["name"]}*')
+    #     st.title('Some content')
+    #     authenticator.token['exp_date'] = date.fromtimestamp(
+    #         authenticator.token['exp_date'])
+    #     st.write(authenticator.token)
+    # elif st.session_state["authentication_status"] is False:
+    #     st.error('Username/password is incorrect')
+    # elif st.session_state["authentication_status"] is None:
+    #     st.warning('Please enter your username and password')
 
     ##########################################################
     # Forgot Username
