@@ -1,7 +1,9 @@
 import streamlit as st
 import yaml
+
 from datetime import date
 from yaml.loader import SafeLoader
+
 import StreamlitAuth as stauth
 
 
@@ -46,7 +48,7 @@ def main():
     authenticator.register_user('hi')
 
     if 'stauth' in st.session_state:
-        st.write(st.write(st.session_state['stauth']))
+        st.write(st.session_state['stauth'])
 
 
 
