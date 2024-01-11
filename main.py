@@ -50,11 +50,13 @@ def main():
     if ('stauth' in st.session_state and
             'dev_errors' in st.session_state['stauth'].keys() and
             'register_user' in st.session_state['stauth']['dev_errors'].keys()):
-        st.error(st.session_state['stauth']['dev_errors']['register_user'])
+        st.error(f"dev_error: "
+                 f"{st.session_state['stauth']['dev_errors']['register_user']}")
     elif ('stauth' in st.session_state and
           'user_errors' in st.session_state['stauth'].keys() and
           'register_user' in st.session_state['stauth']['user_errors'].keys()):
-        st.error(st.session_state['stauth']['user_errors']['register_user'])
+        st.error(f"user_error: "
+                 f"{st.session_state['stauth']['user_errors']['register_user']}")
 
 
 
