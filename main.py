@@ -57,7 +57,7 @@ def main():
         st.error(f"user_error: "
                  f"{st.session_state['stauth']['user_errors']['register_user']}")
 
-    authenticator.register_user('main', True, 'generic')
+    authenticator.register_user('main', False, 'generic')
 
 
 
