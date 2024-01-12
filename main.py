@@ -47,7 +47,7 @@ def main():
     ##########################################################
     stauth.ErrorHandling.clear_errors()
 
-    authenticator.register_user('sidebar', False, 'generic')
+    authenticator.register_user('main', True, 'generic')
 
     if ('stauth' in st.session_state and
             'dev_errors' in st.session_state['stauth'].keys() and
