@@ -46,7 +46,7 @@ def main():
     ##########################################################
     # Sign Up
     ##########################################################
-    stauth.ErrorHandling.clear_errors()
+    #stauth.ErrorHandling.clear_errors()
 
     authenticator.register_user('main', True, 'generic')
 
