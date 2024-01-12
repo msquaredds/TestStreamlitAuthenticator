@@ -45,7 +45,7 @@ def main():
     ##########################################################
     # Sign Up
     ##########################################################
-    authenticator.register_user('hi')
+    authenticator.register_user('main')
 
     if ('stauth' in st.session_state and
             'dev_errors' in st.session_state['stauth'].keys() and
