@@ -45,6 +45,8 @@ def main():
     ##########################################################
     # Sign Up
     ##########################################################
+    stauth.ErrorHandling.clear_errors()
+
     authenticator.register_user('main', False, 'generic')
 
     if ('stauth' in st.session_state and
