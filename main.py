@@ -57,9 +57,11 @@ def main():
         st.error(f"user_error: "
                  f"{st.session_state['stauth']['user_errors']['register_user']}")
 
-    authenticator.register_user('main', False, 'google', project_id='my-project',
-                                location_id='us-east1', key_ring_id='my-key-ring',
-                                key_id='my-key')
+    authenticator.register_user('main', True, 'generic')
+                                #project_id='my-project',
+                                #location_id='us-east1',
+                                #key_ring_id='my-key-ring',
+                                #key_id='my-key')
 
 
 
