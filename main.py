@@ -58,10 +58,10 @@ def main():
                  f"{st.session_state['stauth']['user_errors']['register_user']}")
 
     authenticator.register_user('main', False, 'google',
-                                project_id='my-project',
-                                location_id='us-east1',
-                                key_ring_id='my-key-ring',
-                                key_id='my-key')
+                                project_id='teststreamlitauth-412915',
+                                location_id='us-central1',
+                                key_ring_id='testkeyring',
+                                key_id='testkey')
 
 
 
