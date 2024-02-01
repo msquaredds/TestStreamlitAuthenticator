@@ -60,7 +60,7 @@ def main():
                  f"{st.session_state['stauth']['user_errors']['register_user']}")
 
     scopes = ['https://www.googleapis.com/auth/cloudkms']
-    our_credentials = 'teststreamlitauth-412915-4e834b246652.json'
+    our_credentials = 'teststreamlitauth-412915-9579af1e153c.json'
     creds = service_account.Credentials.from_service_account_file(
         our_credentials, scopes=scopes)
 
