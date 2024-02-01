@@ -3,7 +3,6 @@ import streamlit as st
 import yaml
 
 from datetime import date
-from google.oauth2 import service_account
 from yaml.loader import SafeLoader
 
 import StreamlitAuth as stauth
@@ -12,6 +11,9 @@ import StreamlitAuth as stauth
 def main():
     # st.write('Hello World!')
 
+    # this section is used to check the installed packages, including the
+    # version of streamlitauth
+    ######################################################################
     # import pkg_resources
     # installed_packages = pkg_resources.working_set
     # installed_packages_list = sorted(["%s==%s" % (i.key, i.version)
@@ -20,21 +22,22 @@ def main():
     # streamlit_package = [i for i in installed_packages if i.key ==
     #                      'streamlitauth']
     # st.write(streamlit_package)
+    ######################################################################
 
     # use for testing, but ideally we want to store and load from a more
     # secure location, like a database
     with open('config.yaml') as file:
         config = yaml.load(file, Loader=SafeLoader)
 
-    st.write(config)
+    st.write("config", config)
 
     # put usernames and emails into a list
     usernames = [i for i in config['credentials']['usernames'].keys()]
     emails = [config['credentials']['usernames'][i]['email']
               for i in usernames]
 
-    st.write(usernames)
-    st.write(emails)
+    st.write("usernames", usernames)
+    st.write("emails", emails)
 
     authenticator = stauth.Authenticate(
         usernames,
@@ -59,13 +62,20 @@ def main():
         st.error(f"user_error: "
                  f"{st.session_state['stauth']['user_errors']['register_user']}")
 
+    # here we pull in the credentials for the google cloud service account
+    # that allows us to access the KMS (key management service) to encrypt
+    # and decrypt data.
+    # in this case, we used a service account to do so.
+    # this service account must be permissioned (at a minimum) as a
+    # "Cloud KMS CryptoKey Encrypter/Decrypter" in order to use the KMS.
+    from google.oauth2 import service_account
+    # this is the necessary scope for the KMS
     scopes = ['https://www.googleapis.com/auth/cloudkms']
+    # this is just a file that stores the key info (the service account
+    # key, not the KMS key) in a JSON file
     our_credentials = 'teststreamlitauth-412915-9579af1e153c.json'
     creds = service_account.Credentials.from_service_account_file(
         our_credentials, scopes=scopes)
-
-    st.write(creds)
-    st.write(type(creds))
 
     authenticator.register_user('main', False, 'google',
                                 project_id='teststreamlitauth-412915',
