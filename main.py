@@ -1,7 +1,9 @@
+import json
 import streamlit as st
 import yaml
 
 from datetime import date
+from google.oauth2 import service_account
 from yaml.loader import SafeLoader
 
 import StreamlitAuth as stauth
@@ -57,11 +59,20 @@ def main():
         st.error(f"user_error: "
                  f"{st.session_state['stauth']['user_errors']['register_user']}")
 
+    scopes = ['https://www.googleapis.com/auth/cloudkms']
+    our_credentials = 'teststreamlitauth-412915-adbbb4665710.json'
+    creds = service_account.Credentials.from_service_account_file(
+        our_credentials, scopes=scopes)
+
+    st.write(creds)
+    st.write(type(creds))
+
     authenticator.register_user('main', False, 'google',
                                 project_id='teststreamlitauth-412915',
                                 location_id='us-central1',
                                 key_ring_id='testkeyring',
-                                key_id='testkey')
+                                key_id='testkey',
+                                kms_credentials=creds)
 
 
 
