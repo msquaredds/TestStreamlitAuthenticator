@@ -1,3 +1,9 @@
+"""
+Used to test all the functions of the StreamlitAuth package.
+This includes testing the original, unaltered package (see the bottom),
+as well as all updates.
+"""
+
 import json
 import streamlit as st
 import yaml
@@ -40,17 +46,24 @@ def main():
     st.write("emails", emails)
 
     authenticator = stauth.Authenticate(
-        usernames,
-        emails,
-        config['cookie']['name'],
-        config['cookie']['key'],
-        config['cookie']['expiry_days'],
-        config['preauthorized']['emails']
+        usernames=usernames,
+        emails=emails,
+        cookie_name=config['cookie']['name'],
+        cookie_key=config['cookie']['key'],
+        cookie_expiry_days=config['cookie']['expiry_days'],
+        preauthorized=config['preauthorized']['emails']
     )
 
     ##########################################################
     # Sign Up
     ##########################################################
+    # we tested all versions of inputs:
+    # 'main' vs 'sidebar'
+    # True vs False
+    # 'generic' vs 'google'
+    # we also tested the decrypt function, which is not used in the
+    # register_user function, but was created for completeness
+
     if ('stauth' in st.session_state and
             'dev_errors' in st.session_state['stauth'].keys() and
             'register_user' in st.session_state['stauth']['dev_errors'].keys()):
@@ -68,14 +81,14 @@ def main():
     # in this case, we used a service account to do so.
     # this service account must be permissioned (at a minimum) as a
     # "Cloud KMS CryptoKey Encrypter/Decrypter" in order to use the KMS.
-    from google.oauth2 import service_account
-    # this is the necessary scope for the KMS
-    scopes = ['https://www.googleapis.com/auth/cloudkms']
-    # this is just a file that stores the key info (the service account
-    # key, not the KMS key) in a JSON file
-    our_credentials = 'teststreamlitauth-412915-9579af1e153c.json'
-    creds = service_account.Credentials.from_service_account_file(
-        our_credentials, scopes=scopes)
+    # our_credentials is just a file that stores the key info (the service
+    # account key, not the KMS key) in a JSON file.
+
+    # from google.oauth2 import service_account
+    # scopes = ['https://www.googleapis.com/auth/cloudkms']
+    # our_credentials = 'teststreamlitauth-412915-9579af1e153c.json'
+    # creds = service_account.Credentials.from_service_account_file(
+    #     our_credentials, scopes=scopes)
 
     authenticator.register_user('main', False, 'generic')
                                 # project_id='teststreamlitauth-412915',
@@ -93,9 +106,11 @@ def main():
     ######################################################################
     # EVERYTHING BELOW HERE IS TESTING FOR THE ORIGINAL PACKAGE
     ######################################################################
+    # This was forked from the original package
+    # (https://github.com/mkhorasani/Streamlit-Authenticator)
+    # and tested before any changes were made
     ######################################################################
     ######################################################################
-
 
     ##########################################################
     # Sign Up - No Preauthorization
@@ -141,8 +156,8 @@ def main():
     # Forgot Username
     ##########################################################
     # try:
-    #     username_of_forgotten_username, email_of_forgotten_username = authenticator.forgot_username(
-    #         'Forgot username')
+    #     username_of_forgotten_username, email_of_forgotten_username = \
+    #         authenticator.forgot_username('Forgot username')
     #     if username_of_forgotten_username:
     #         st.success('Username to be sent securely')
     #         # Username should be transferred to user securely
@@ -156,7 +171,8 @@ def main():
     ##########################################################
     # try:
     #     (username_of_forgotten_password, email_of_forgotten_password,
-    #      new_random_password) = authenticator.forgot_password('Forgot password')
+    #      new_random_password) = authenticator.forgot_password(
+    #          'Forgot password')
     #     if username_of_forgotten_password:
     #         st.success('New password to be sent securely')
     #         st.write(username_of_forgotten_password)
@@ -185,12 +201,13 @@ def main():
     ##########################################################
     # if st.session_state["authentication_status"]:
     #     try:
-    #         if authenticator.update_user_details(st.session_state["username"], 'Update user details'):
+    #         if authenticator.update_user_details(
+    #                 st.session_state["username"], 'Update user details'):
     #             st.success('Entries updated successfully')
-    #             st.write(authenticator.credentials['usernames'][st.session_state["username"]])
+    #             st.write(authenticator.credentials[
+    #                      'usernames'][st.session_state["username"]])
     #     except Exception as e:
     #         st.error(e)
-
 
 
 if __name__ == '__main__':

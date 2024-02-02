@@ -1,6 +1,6 @@
 --extra-index-url https://test.pypi.org/simple/
 streamlit>=1.13.0
-StreamlitAuth==0.0.32
+StreamlitAuth==0.0.33
 pyyaml>=6.0.1
 google-auth-oauthlib==1.2.0
 google-auth==2.27.0
