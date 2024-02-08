@@ -64,17 +64,6 @@ def main():
     # we also tested the decrypt function, which is not used in the
     # register_user function, but was created for completeness
 
-    if ('stauth' in st.session_state and
-            'dev_errors' in st.session_state['stauth'].keys() and
-            'register_user' in st.session_state['stauth']['dev_errors'].keys()):
-        st.error(f"dev_error: "
-                 f"{st.session_state['stauth']['dev_errors']['register_user']}")
-    elif ('stauth' in st.session_state and
-          'user_errors' in st.session_state['stauth'].keys() and
-          'register_user' in st.session_state['stauth']['user_errors'].keys()):
-        st.error(f"user_error: "
-                 f"{st.session_state['stauth']['user_errors']['register_user']}")
-
     # here we pull in the credentials for the google cloud service account
     # that allows us to access the KMS (key management service) to encrypt
     # and decrypt data.
@@ -97,7 +86,18 @@ def main():
                                 # key_id='testkey',
                                 # kms_credentials=creds)
 
-    #st.write(authenticator.credentials)
+    if ('stauth' in st.session_state and
+            'dev_errors' in st.session_state['stauth'].keys() and
+            'register_user' in st.session_state['stauth']['dev_errors'].keys()):
+        st.error(f"dev_error: "
+                 f"{st.session_state['stauth']['dev_errors']['register_user']}")
+    elif ('stauth' in st.session_state and
+          'user_errors' in st.session_state['stauth'].keys() and
+          'register_user' in st.session_state['stauth']['user_errors'].keys()):
+        st.error(f"user_error: "
+                 f"{st.session_state['stauth']['user_errors']['register_user']}")
+
+    st.write(authenticator.user_credentials)
 
 
 
