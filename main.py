@@ -47,8 +47,8 @@ def main():
 
     st.session_state['authenticator_usernames'] = usernames
     st.session_state['authenticator_emails'] = emails
-    # st.session_state['authenticator_preauthorized'] = config['preauthorized'][
-    #     'emails']
+    st.session_state['authenticator_preauthorized'] = config['preauthorized'][
+        'emails']
 
     authenticator = stauth.Authenticate(
         usernames_session_state='authenticator_usernames',
