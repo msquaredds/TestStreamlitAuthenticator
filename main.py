@@ -104,13 +104,17 @@ def main():
                                 # kms_credentials=creds)
 
     if 'authenticator_usernames' in st.session_state:
-        st.write(st.session_state['authenticator_usernames'])
+        st.write('authenticator_usernames',
+                 st.session_state['authenticator_usernames'])
     if 'authenticator_emails' in st.session_state:
-        st.write(st.session_state['authenticator_emails'])
+        st.write('authenticator_emails',
+                 st.session_state['authenticator_emails'])
     if 'authenticator_user_credentials' in st.session_state:
-        st.write(st.session_state['authenticator_user_credentials'])
+        st.write('authenticator_user_credentials',
+                 st.session_state['authenticator_user_credentials'])
     if 'authenticator_preauthorized' in st.session_state:
-        st.write(st.session_state['authenticator_preauthorized'])
+        st.write('authenticator_preauthorized',
+                 st.session_state['authenticator_preauthorized'])
 
 
 
