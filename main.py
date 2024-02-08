@@ -45,7 +45,7 @@ def main():
     st.write("usernames", usernames)
     st.write("emails", emails)
 
-    # st.session_state['authenticator_usernames'] = usernames
+    st.session_state['authenticator_usernames'] = usernames
     # st.session_state['authenticator_emails'] = emails
     # st.session_state['authenticator_preauthorized'] = config['preauthorized'][
     #     'emails']
