@@ -35,15 +35,15 @@ def main():
     with open('config.yaml') as file:
         config = yaml.load(file, Loader=SafeLoader)
 
-    st.write("config", config)
+    #st.write("config", config)
 
     # put usernames and emails into a list
     usernames = [i for i in config['credentials']['usernames'].keys()]
     emails = [config['credentials']['usernames'][i]['email']
               for i in usernames]
 
-    st.write("usernames", usernames)
-    st.write("emails", emails)
+    #st.write("usernames", usernames)
+    #st.write("emails", emails)
 
     st.session_state['authenticator_usernames'] = usernames
     st.session_state['authenticator_emails'] = emails
@@ -96,7 +96,7 @@ def main():
     # creds = service_account.Credentials.from_service_account_file(
     #     our_credentials, scopes=scopes)
 
-    authenticator.register_user('main', True, 'generic')
+    authenticator.register_user('hi', False, 'generic')
                                 # project_id='teststreamlitauth-412915',
                                 # location_id='us-central1',
                                 # key_ring_id='testkeyring',
