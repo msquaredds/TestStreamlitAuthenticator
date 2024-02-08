@@ -96,7 +96,7 @@ def main():
     # creds = service_account.Credentials.from_service_account_file(
     #     our_credentials, scopes=scopes)
 
-    authenticator.register_user('hi', False, 'generic')
+    authenticator.register_user('main', False, 'hi')
                                 # project_id='teststreamlitauth-412915',
                                 # location_id='us-central1',
                                 # key_ring_id='testkeyring',
