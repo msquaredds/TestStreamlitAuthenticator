@@ -45,13 +45,19 @@ def main():
     st.write("usernames", usernames)
     st.write("emails", emails)
 
+    # st.session_state['authenticator_usernames'] = usernames
+    # st.session_state['authenticator_emails'] = emails
+    # st.session_state['authenticator_preauthorized'] = config['preauthorized'][
+    #     'emails']
+
     authenticator = stauth.Authenticate(
-        usernames=usernames,
-        emails=emails,
+        usernames_session_state='authenticator_usernames',
+        emails_session_state='authenticator_emails',
+        user_credentials_session_state='authenticator_user_credentials',
+        preauthorized_session_state='authenticator_preauthorized',
         cookie_name=config['cookie']['name'],
         cookie_key=config['cookie']['key'],
-        cookie_expiry_days=config['cookie']['expiry_days'],
-        preauthorized=config['preauthorized']['emails']
+        cookie_expiry_days=config['cookie']['expiry_days']
     )
 
     ##########################################################
@@ -97,7 +103,14 @@ def main():
                                 # key_id='testkey',
                                 # kms_credentials=creds)
 
-    st.write(authenticator.user_credentials)
+    if 'authenticator_usernames' in st.session_state:
+        st.write(st.session_state['authenticator_usernames'])
+    if 'authenticator_emails' in st.session_state:
+        st.write(st.session_state['authenticator_emails'])
+    if 'authenticator_user_credentials' in st.session_state:
+        st.write(st.session_state['authenticator_user_credentials'])
+    if 'authenticator_preauthorized' in st.session_state:
+        st.write(st.session_state['authenticator_preauthorized'])
 
 
 
