@@ -97,6 +97,8 @@ def main():
                                 # key_id='testkey',
                                 # kms_credentials=creds)
 
+    st.write(authenticator.credentials)
+
 
 
 
