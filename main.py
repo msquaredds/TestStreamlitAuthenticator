@@ -45,10 +45,13 @@ def main():
     #st.write("usernames", usernames)
     #st.write("emails", emails)
 
-    st.session_state['authenticator_usernames'] = usernames
-    st.session_state['authenticator_emails'] = emails
-    st.session_state['authenticator_preauthorized'] = config['preauthorized'][
-        'emails']
+    if 'authenticator_usernames' not in st.session_state:
+        st.session_state['authenticator_usernames'] = usernames
+    if 'authenticator_emails' not in st.session_state:
+        st.session_state['authenticator_emails'] = emails
+    if 'authenticator_preauthorized' not in st.session_state:
+        st.session_state['authenticator_preauthorized'] = config[
+            'preauthorized']['emails']
 
     authenticator = stauth.Authenticate(
         usernames_session_state='authenticator_usernames',
