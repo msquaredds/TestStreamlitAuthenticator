@@ -99,14 +99,11 @@ def main():
     # creds = service_account.Credentials.from_service_account_file(
     #     our_credentials, scopes=scopes)
 
-    gmail_creds = st.secrets['GMAIL']
-    st.write(type(gmail_creds))
-
     authenticator.register_user('main', False, 'generic',
                                 email_user='gmail', website_name='SharpShares',
                                 website_email='alex.melesko@msquaredds.com',
                                 oauth2_credentials_secrets_file=st.secrets[
-                                    'gmail'])
+                                    'GMAIL'])
                                 # project_id='teststreamlitauth-412915',
                                 # location_id='us-central1',
                                 # key_ring_id='testkeyring',
