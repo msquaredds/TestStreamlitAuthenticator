@@ -95,9 +95,11 @@ def main():
 
     # from google.oauth2 import service_account
     # scopes = ['https://www.googleapis.com/auth/cloudkms']
-    # our_credentials = 'teststreamlitauth-412915-9579af1e153c.json'
-    # creds = service_account.Credentials.from_service_account_file(
+    # our_credentials = 'service_account_key_file.json'
+    # OLD: creds = service_account.Credentials.from_service_account_file(
     #     our_credentials, scopes=scopes)
+    # NEW: creds = service_account.Credentials.from_service_account_info(
+    #     st.secrets['KMS'], scopes=scopes)
 
     authenticator.register_user('main', False, 'generic',
                                 email_user='gmail', website_name='SharpShares',
