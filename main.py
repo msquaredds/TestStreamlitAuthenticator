@@ -93,24 +93,24 @@ def main():
     # our_credentials is just a file that stores the key info (the service
     # account key, not the KMS key) in a JSON file.
 
-    # from google.oauth2 import service_account
-    # scopes = ['https://www.googleapis.com/auth/cloudkms']
+    from google.oauth2 import service_account
+    scopes = ['https://www.googleapis.com/auth/cloudkms']
     # our_credentials = 'service_account_key_file.json'
     # OLD: creds = service_account.Credentials.from_service_account_file(
     #     our_credentials, scopes=scopes)
-    # NEW: creds = service_account.Credentials.from_service_account_info(
-    #     st.secrets['KMS'], scopes=scopes)
+    creds = service_account.Credentials.from_service_account_info(
+        st.secrets['KMS'], scopes=scopes)
 
     authenticator.register_user('main', False, 'generic',
-                                email_user='gmail', website_name='SharpShares',
-                                website_email='alex.melesko@msquaredds.com',
-                                oauth2_credentials_secrets_file=dict(
-                                    st.secrets['GMAIL']))
-                                # project_id='teststreamlitauth-412915',
-                                # location_id='us-central1',
-                                # key_ring_id='testkeyring',
-                                # key_id='testkey',
-                                # kms_credentials=creds)
+                                # email_user='gmail', website_name='SharpShares',
+                                # website_email='alex.melesko@msquaredds.com',
+                                # oauth2_credentials_secrets_file=
+                                #     st.secrets['GMAIL'])
+                                project_id='teststreamlitauth-412915',
+                                location_id='us-central1',
+                                key_ring_id='testkeyring',
+                                key_id='testkey',
+                                kms_credentials=creds)
 
     if 'authenticator_usernames' in st.session_state:
         st.write('authenticator_usernames',
