@@ -100,7 +100,7 @@ def main():
     #     our_credentials, scopes=scopes)
 
     gmail_creds = st.secrets['GMAIL']
-    st.write(gmail_creds)
+    st.write(type(gmail_creds))
 
     authenticator.register_user('main', False, 'generic',
                                 email_user='gmail', website_name='SharpShares',
