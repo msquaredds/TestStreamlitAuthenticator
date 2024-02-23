@@ -101,6 +101,9 @@ def main():
     # NEW: creds = service_account.Credentials.from_service_account_info(
     #     st.secrets['KMS'], scopes=scopes)
 
+    st.write(st.secrets['GMAIL'])
+    st.write(st.secrets['KMS'])
+
     authenticator.register_user('main', False, 'generic',
                                 email_user='gmail', website_name='SharpShares',
                                 website_email='alex.melesko@msquaredds.com',
