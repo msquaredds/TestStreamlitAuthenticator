@@ -101,7 +101,7 @@ def main():
     creds = service_account.Credentials.from_service_account_info(
         st.secrets['KMS'], scopes=scopes)
 
-    authenticator.register_user('main', False, 'generic',
+    authenticator.register_user('main', False, 'google',
                                 # email_user='gmail', website_name='SharpShares',
                                 # website_email='alex.melesko@msquaredds.com',
                                 # oauth2_credentials_secrets_file=
