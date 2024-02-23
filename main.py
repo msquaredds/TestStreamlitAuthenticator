@@ -100,8 +100,8 @@ def main():
     #     our_credentials, scopes=scopes)
 
     authenticator.register_user('main', False, 'generic',
-                                email_user=True, website_name='SharpShares',
-                                website_email='hello@sharpshares.com')
+                                email_user='gmail', website_name='SharpShares',
+                                website_email='alex.melesko@msquaredds.com')
                                 # project_id='teststreamlitauth-412915',
                                 # location_id='us-central1',
                                 # key_ring_id='testkeyring',
