@@ -102,8 +102,8 @@ def main():
     authenticator.register_user('main', False, 'generic',
                                 email_user='gmail', website_name='SharpShares',
                                 website_email='alex.melesko@msquaredds.com',
-                                oauth2_credentials_secrets_file=st.secrets[
-                                    'GMAIL'])
+                                oauth2_credentials_secrets_file=dict(
+                                    st.secrets['GMAIL']))
                                 # project_id='teststreamlitauth-412915',
                                 # location_id='us-central1',
                                 # key_ring_id='testkeyring',
