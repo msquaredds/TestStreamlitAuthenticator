@@ -95,17 +95,17 @@ def main():
 
     # from google.oauth2 import service_account
     # scopes = ['https://www.googleapis.com/auth/cloudkms']
-    # our_credentials = 'service_account_key_file.json'
-    # OLD: creds = service_account.Credentials.from_service_account_file(
-    #     our_credentials, scopes=scopes)
     # creds = service_account.Credentials.from_service_account_info(
     #     st.secrets['KMS'], scopes=scopes)
+    # OLD: our_credentials = 'service_account_key_file.json'
+    # OLD: creds = service_account.Credentials.from_service_account_file(
+    #     our_credentials, scopes=scopes)
 
-    authenticator.register_user('main', False, 'generic',
-                                email_user='gmail', website_name='SharpShares',
-                                website_email='alex.melesko@msquaredds.com',
-                                oauth2_credentials_secrets_dict=
-                                    st.secrets['GMAIL'])
+    authenticator.register_user('main', False, 'generic')
+                                # email_user='gmail', website_name='SharpShares',
+                                # website_email='alex.melesko@msquaredds.com',
+                                # oauth2_credentials_secrets_dict=
+                                #     st.secrets['GMAIL'])
                                 # project_id='teststreamlitauth-412915',
                                 # location_id='us-central1',
                                 # key_ring_id='testkeyring',
