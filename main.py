@@ -102,15 +102,19 @@ def main():
     #     our_credentials, scopes=scopes)
 
     authenticator.register_user('main', False, 'generic')
-                                # email_user='gmail', website_name='SharpShares',
-                                # website_email='alex.melesko@msquaredds.com',
-                                # oauth2_credentials_secrets_dict=
-                                #     st.secrets['GMAIL'])
-                                # project_id='teststreamlitauth-412915',
-                                # location_id='us-central1',
-                                # key_ring_id='testkeyring',
-                                # key_id='testkey',
-                                # kms_credentials=creds)
+                                # email_user='gmail',
+                                # email_inputs={website_name: 'SharpShares',
+                                # website_email:
+                                # 'alex.melesko@msquaredds.com'},
+                                # gmail_creds={
+                                # oauth2_credentials_secrets_dict:
+                                # st.secrets['GMAIL']},
+                                # encrypt_args={
+                                # project_id: 'teststreamlitauth-412915',
+                                # location_id: 'us-central1',
+                                # key_ring_id: 'testkeyring',
+                                # key_id: 'testkey',
+                                # kms_credentials=creds})
 
     if 'authenticator_usernames' in st.session_state:
         st.write('authenticator_usernames',
