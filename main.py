@@ -93,28 +93,29 @@ def main():
     # our_credentials is just a file that stores the key info (the service
     # account key, not the KMS key) in a JSON file.
 
-    # from google.oauth2 import service_account
-    # scopes = ['https://www.googleapis.com/auth/cloudkms']
-    # creds = service_account.Credentials.from_service_account_info(
-    #     st.secrets['KMS'], scopes=scopes)
+    from google.oauth2 import service_account
+    scopes = ['https://www.googleapis.com/auth/cloudkms']
+    creds = service_account.Credentials.from_service_account_info(
+        st.secrets['KMS'], scopes=scopes)
     # OLD: our_credentials = 'service_account_key_file.json'
     # OLD: creds = service_account.Credentials.from_service_account_file(
     #     our_credentials, scopes=scopes)
 
-    authenticator.register_user('main', False, 'generic')
+    authenticator.register_user('main', False, 'google',
+                                encrypt_args={
+                                    'project_id': 'teststreamlitauth-412915',
+                                    'location_id': 'us-central1',
+                                    'key_ring_id': 'testkeyring',
+                                    'key_id': 'testkey',
+                                    'kms_credentials': creds}
+                                )
                                 # email_user='gmail',
-                                # email_inputs={website_name: 'SharpShares',
-                                # website_email:
+                                # email_inputs={'website_name': 'SharpShares',
+                                # 'website_email':
                                 # 'alex.melesko@msquaredds.com'},
                                 # gmail_creds={
-                                # oauth2_credentials_secrets_dict:
-                                # st.secrets['GMAIL']},
-                                # encrypt_args={
-                                # project_id: 'teststreamlitauth-412915',
-                                # location_id: 'us-central1',
-                                # key_ring_id: 'testkeyring',
-                                # key_id: 'testkey',
-                                # kms_credentials=creds})
+                                # 'oauth2_credentials_secrets_dict':
+                                # st.secrets['GMAIL']})
 
     if 'authenticator_usernames' in st.session_state:
         st.write('authenticator_usernames',
