@@ -10,6 +10,8 @@ import streamlit as st
 import yaml
 
 from datetime import date
+from google.cloud import bigquery
+from google.oauth2 import service_account
 from yaml.loader import SafeLoader
 
 import StreamlitAuth as stauth
@@ -29,7 +31,40 @@ def _store_df_bigquery(creds: dict, df: pd.DataFrame, project: str,
         Can be 'append', 'replace', or 'fail'. Default is 'append'.
     :return:
     """
-    pass
+    scope=['https://www.googleapis.com/auth/bigquery']
+    creds = service_account.Credentials.from_service_account_info(
+        creds, scopes=scope)
+    client = bigquery.Client(credentials=creds)
+
+    ######################################################################
+    # UPDATED BELOW & TEST
+    ######################################################################
+
+    # set up table_id
+    table_id = project + "." + dataset + "." + table_name
+    # determine behavior if table already exists
+    if if_exists == 'append':
+        write_disposition = 'WRITE_APPEND'
+    elif if_exists == 'replace':
+        write_disposition = 'WRITE_TRUNCATE'
+    else:
+        write_disposition = 'WRITE_EMPTY'
+    # set up the config
+    job_config = bigquery.LoadJobConfig(
+        schema=[bigquery.SchemaField("date", bigquery.enums.SqlTypeNames.STRING)],
+        write_disposition=write_disposition
+    )
+    # store
+    job = client.load_table_from_dataframe(df, table_id, job_config=job_config)
+    job.result()
+
+    try:
+        table = client.get_table(table_id)  # Make an API request.
+    except Exception as e:
+        log_str = ("*******************Error*******************\n"
+                   "Error getting table from BigQuery.\n"
+                   "Error: " + str(e))
+        raise ValueError(log_str)
 
 
 def main():
