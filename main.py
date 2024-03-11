@@ -5,6 +5,7 @@ as well as all updates.
 """
 
 import json
+import pandas as pd
 import streamlit as st
 import yaml
 
@@ -12,6 +13,23 @@ from datetime import date
 from yaml.loader import SafeLoader
 
 import StreamlitAuth as stauth
+
+
+def _store_df_bigquery(creds: dict, df: pd.DataFrame, project: str,
+                       dataset: str, table_name: str,
+                       if_exists: str='append'):
+    """
+    Creating a test function that allows for storing data, since we will
+        try passing this function into the register_user function.
+    :param df: The DataFrame to store.
+    :param project: The project to store the data in.
+    :param dataset: The dataset to store the data in.
+    :param table_name: The name of the table to store the data in.
+    :param if_exists: What to do if the table already exists.
+        Can be 'append', 'replace', or 'fail'. Default is 'append'.
+    :return:
+    """
+    pass
 
 
 def main():
@@ -101,22 +119,24 @@ def main():
     # OLD: creds = service_account.Credentials.from_service_account_file(
     #     our_credentials, scopes=scopes)
 
-    authenticator.register_user('main', False, 'generic')
+    authenticator.register_user('main', False, 'generic',
                                 # encrypt_args={
                                 #     'project_id': 'teststreamlitauth-412915',
                                 #     'location_id': 'us-central1',
                                 #     'key_ring_id': 'testkeyring',
                                 #     'key_id': 'testkey',
                                 #     'kms_credentials': creds}
-                                # )
-                                # email_user='gmail',
-                                # email_inputs={
-                                #     'website_name': 'SharpShares',
-                                #     'website_email':
-                                #         'alex.melesko@msquaredds.com'},
-                                # gmail_creds={
+                                email_user='sendgrid',
+                                email_inputs={
+                                    'website_name': 'SharpShares',
+                                    'website_email':
+                                        'hello@sharpshares.com'},
+                                # email_creds={
                                 #     'oauth2_credentials_secrets_dict':
-                                #         st.secrets['GMAIL']})
+                                #         st.secrets['GMAIL']}
+                                email_creds={'sendgrid_api_key':
+                                             st.secrets['SENDGRID'][
+                                                 'sendgrid_api_key']})
 
     if 'authenticator_usernames' in st.session_state:
         st.write('authenticator_usernames',
