@@ -37,7 +37,7 @@ def _store_df_bigquery(creds: dict, df: pd.DataFrame, project: str,
     client = bigquery.Client(credentials=creds)
 
     ######################################################################
-    # UPDATED BELOW & TEST
+    # UPDATE BELOW & TEST
     ######################################################################
 
     # set up table_id
@@ -146,21 +146,21 @@ def main():
     # our_credentials is just a file that stores the key info (the service
     # account key, not the KMS key) in a JSON file.
 
-    # from google.oauth2 import service_account
-    # scopes = ['https://www.googleapis.com/auth/cloudkms']
-    # creds = service_account.Credentials.from_service_account_info(
-    #     st.secrets['KMS'], scopes=scopes)
+    from google.oauth2 import service_account
+    scopes = ['https://www.googleapis.com/auth/cloudkms']
+    creds = service_account.Credentials.from_service_account_info(
+        st.secrets['KMS'], scopes=scopes)
     # OLD: our_credentials = 'service_account_key_file.json'
     # OLD: creds = service_account.Credentials.from_service_account_file(
     #     our_credentials, scopes=scopes)
 
-    authenticator.register_user('main', False, 'generic',
-                                # encrypt_args={
-                                #     'project_id': 'teststreamlitauth-412915',
-                                #     'location_id': 'us-central1',
-                                #     'key_ring_id': 'testkeyring',
-                                #     'key_id': 'testkey',
-                                #     'kms_credentials': creds}
+    authenticator.register_user('main', False, 'google',
+                                encrypt_args={
+                                    'project_id': 'teststreamlitauth-412915',
+                                    'location_id': 'us-central1',
+                                    'key_ring_id': 'testkeyring',
+                                    'key_id': 'testkey',
+                                    'kms_credentials': creds},
                                 email_user='sendgrid',
                                 email_inputs={
                                     'website_name': 'SharpShares',
