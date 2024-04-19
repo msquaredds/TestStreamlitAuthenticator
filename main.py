@@ -18,14 +18,14 @@ from yaml.loader import SafeLoader
 import StreamlitAuth as stauth
 
 
-def _store_df_bigquery(df: dict, creds: dict, project: str,
+def _store_df_bigquery(user_credentials: dict, bq_creds: dict, project: str,
                        dataset: str, table_name: str,
                        if_exists: str='append') -> Union[None, str]:
     """
     Creating a test function that allows for storing data, since we will
         try passing this function into the register_user function.
-    :param df: The DataFrame to store.
-    :param creds: The credentials to access the BigQuery project. These
+    :param user_credentials: The user credentials to store.
+    :param bq_creds: The credentials to access the BigQuery project. These
         should, at a minimum, have the role of "BigQuery Data Editor".
     :param project: The project to store the data in.
     :param dataset: The dataset to store the data in.
@@ -34,10 +34,19 @@ def _store_df_bigquery(df: dict, creds: dict, project: str,
         Can be 'append', 'replace', or 'fail'. Default is 'append'.
     :return: None if successful, error message if not.
     """
+    # turn the user credentials into a dataframe
+    user_credentials['username'] = [user_credentials['username']]
+    user_credentials['email'] = [user_credentials['email']]
+    user_credentials['password'] = [user_credentials['password']]
+    # we want the index to be a utc timestamp
+    save_index = pd.to_datetime('now', utc=True)
+    df = pd.DataFrame(user_credentials, index=[save_index])
+
+    # connect to the database
     scope=['https://www.googleapis.com/auth/bigquery']
     try:
         creds = service_account.Credentials.from_service_account_info(
-            creds, scopes=scope)
+            bq_creds, scopes=scope)
     except Exception as e:
         return f"Error loading credentials: {str(e)}"
 
@@ -180,7 +189,14 @@ def main():
                                 #         st.secrets['GMAIL']}
                                 email_creds={'sendgrid_api_key':
                                              st.secrets['SENDGRID'][
-                                                 'sendgrid_api_key']})
+                                                 'sendgrid_api_key']},
+                                cred_save_function=_store_df_bigquery,
+                                cred_save_args={
+                                    'bq_creds': st.secrets['BIGQUERY'],
+                                    'project': 'teststreamlitauth-412915',
+                                    'dataset': 'test_credentials',
+                                    'table_name': 'user_credentials'})
+
 
     if 'authenticator_usernames' in st.session_state:
         st.write('authenticator_usernames',
@@ -188,10 +204,16 @@ def main():
     if 'authenticator_emails' in st.session_state:
         st.write('authenticator_emails',
                  st.session_state['authenticator_emails'])
+    if 'authenticator_preauthorized' in st.session_state:
+        st.write('authenticator_preauthorized',
+                 st.session_state['authenticator_preauthorized'])
     if 'authenticator_user_credentials' in st.session_state:
         st.write('authenticator_user_credentials',
                  st.session_state['authenticator_user_credentials'])
 
+        # here we tested turning the credentials dictionary into a
+        # dataframe and also making sure that once we put it into a
+        # dataframe we could pull it back out and decrypt it
         # turn the dict into a dataframe
         save_dict = st.session_state['authenticator_user_credentials'].copy()
         save_dict['username'] = [save_dict['username']]
@@ -203,24 +225,17 @@ def main():
         st.write("save_df", save_df)
 
         # pull out the str username
-        username = save_df['username'].values[0]
-        st.write("username", username)
-        # convert to bytes
-        # username_bytes = username.encode('utf-8')
-        # st.write("username_bytes", username_bytes)
+        # username = save_df['username'].values[0]
+        # st.write("username", username)
         # decrypt the username
-        decryptor = stauth.GoogleEncryptor('teststreamlitauth-412915',
-                                           'us-central1',
-                                           'testkeyring',
-                                           'testkey',
-                                           kms_creds)
-        decrypted_username = decryptor.decrypt(username)
-        st.write("decrypted_username", str(
-            decrypted_username.plaintext).replace("b'", "").replace("'", ""))
-
-    if 'authenticator_preauthorized' in st.session_state:
-        st.write('authenticator_preauthorized',
-                 st.session_state['authenticator_preauthorized'])
+        # decryptor = stauth.GoogleEncryptor('teststreamlitauth-412915',
+        #                                    'us-central1',
+        #                                    'testkeyring',
+        #                                    'testkey',
+        #                                    kms_creds)
+        # decrypted_username = decryptor.decrypt(username)
+        # st.write("decrypted_username", str(
+        #     decrypted_username.plaintext).replace("b'", "").replace("'", ""))
 
 
 
