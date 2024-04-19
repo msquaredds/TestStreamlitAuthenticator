@@ -206,8 +206,8 @@ def main():
         username = save_df['username'].values[0]
         st.write("username", username)
         # convert to bytes
-        username_bytes = username.encode('utf-8')
-        st.write("username_bytes", username_bytes)
+        # username_bytes = username.encode('utf-8')
+        # st.write("username_bytes", username_bytes)
         # decrypt the username
         decryptor = stauth.GoogleEncryptor('teststreamlitauth-412915',
                                            'us-central1',
