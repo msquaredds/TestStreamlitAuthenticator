@@ -196,7 +196,9 @@ def main():
         save_dict['username'] = [str(save_dict['username'])]
         save_dict['email'] = [str(save_dict['email'])]
         save_dict['password'] = [str(save_dict['password'])]
-        save_df = pd.DataFrame(save_dict)
+        # we want the index to be a utc timestamp
+        save_index = pd.to_datetime('now', utc=True)
+        save_df = pd.DataFrame(save_dict, index=[save_index])
         st.write("save_df", save_df)
         st.write("username type",
             type(st.session_state['authenticator_user_credentials']["username"]))
