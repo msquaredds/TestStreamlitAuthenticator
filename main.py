@@ -215,7 +215,7 @@ def main():
                                            'testkey',
                                            kms_creds)
         decrypted_username = decryptor.decrypt(username)
-        st.write("decrypted_username", decrypted_username.plaintext)
+        st.write("decrypted_username", str(decrypted_username.plaintext))
 
     if 'authenticator_preauthorized' in st.session_state:
         st.write('authenticator_preauthorized',
