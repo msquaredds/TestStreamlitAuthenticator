@@ -192,7 +192,7 @@ def main():
         st.write('authenticator_user_credentials',
                  st.session_state['authenticator_user_credentials'])
         # turn the dict into a dataframe
-        df = pd.DataFrame.from_dict(
+        df = pd.DataFrame(
             st.session_state['authenticator_user_credentials'],
             index=["i", ])
         st.write('df', df)
