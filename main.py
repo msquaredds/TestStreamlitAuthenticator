@@ -193,8 +193,7 @@ def main():
                  st.session_state['authenticator_user_credentials'])
         # turn the dict into a dataframe
         df = pd.DataFrame.from_dict(
-            st.session_state['authenticator_user_credentials'],
-            orient='index')
+            st.session_state['authenticator_user_credentials'])
         st.write('df', df)
     if 'authenticator_preauthorized' in st.session_state:
         st.write('authenticator_preauthorized',
