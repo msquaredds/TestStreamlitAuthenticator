@@ -192,10 +192,12 @@ def main():
         st.write('authenticator_user_credentials',
                  st.session_state['authenticator_user_credentials'])
         # turn the dict into a dataframe
-        df = pd.DataFrame(
-            st.session_state['authenticator_user_credentials'],
-            index=["i", ])
-        st.write('df', df)
+        st.write("username type",
+            type(st.session_state['authenticator_user_credentials']["username"]))
+        st.write("email type",
+            type(st.session_state['authenticator_user_credentials']["email"]))
+        st.write("password type",
+            type(st.session_state['authenticator_user_credentials']["password"]))
     if 'authenticator_preauthorized' in st.session_state:
         st.write('authenticator_preauthorized',
                  st.session_state['authenticator_preauthorized'])
