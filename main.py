@@ -214,7 +214,7 @@ def main():
                                            'testkeyring',
                                            'testkey',
                                            kms_creds)
-        decrypted_username = decryptor.decrypt(username_bytes)
+        decrypted_username = decryptor.decrypt(username)
         st.write("decrypted_username", decrypted_username)
 
     if 'authenticator_preauthorized' in st.session_state:
