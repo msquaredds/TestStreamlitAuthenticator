@@ -191,6 +191,7 @@ def main():
     if 'authenticator_user_credentials' in st.session_state:
         st.write('authenticator_user_credentials',
                  st.session_state['authenticator_user_credentials'])
+
         # turn the dict into a dataframe
         save_dict = st.session_state['authenticator_user_credentials'].copy()
         save_dict['username'] = [str(save_dict['username'])]
@@ -200,8 +201,20 @@ def main():
         save_index = pd.to_datetime('now', utc=True)
         save_df = pd.DataFrame(save_dict, index=[save_index])
         st.write("save_df", save_df)
-        st.write("username type",
-            type(st.session_state['authenticator_user_credentials']["username"]))
+
+        # pull out the str username
+        username = save_df['username'].values[0]
+        # convert to bytes
+        username_bytes = username.encode('utf-8')
+        # decrypt the username
+        decryptor = stauth.GoogleEncryptor('teststreamlitauth-412915',
+                                           'us-central1',
+                                           'testkeyring',
+                                           'testkey',
+                                           kms_creds)
+        decrypted_username = decryptor.decrypt(username_bytes)
+        st.write("decrypted_username", decrypted_username)
+
     if 'authenticator_preauthorized' in st.session_state:
         st.write('authenticator_preauthorized',
                  st.session_state['authenticator_preauthorized'])
