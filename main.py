@@ -12,33 +12,39 @@ import yaml
 from datetime import date
 from google.cloud import bigquery
 from google.oauth2 import service_account
+from typing import Union
 from yaml.loader import SafeLoader
 
 import StreamlitAuth as stauth
 
 
-def _store_df_bigquery(creds: dict, df: pd.DataFrame, project: str,
+def _store_df_bigquery(df: dict, creds: dict, project: str,
                        dataset: str, table_name: str,
-                       if_exists: str='append'):
+                       if_exists: str='append') -> Union[None, str]:
     """
     Creating a test function that allows for storing data, since we will
         try passing this function into the register_user function.
     :param df: The DataFrame to store.
+    :param creds: The credentials to access the BigQuery project. These
+        should, at a minimum, have the role of "BigQuery Data Editor".
     :param project: The project to store the data in.
     :param dataset: The dataset to store the data in.
     :param table_name: The name of the table to store the data in.
     :param if_exists: What to do if the table already exists.
         Can be 'append', 'replace', or 'fail'. Default is 'append'.
-    :return:
+    :return: None if successful, error message if not.
     """
     scope=['https://www.googleapis.com/auth/bigquery']
-    creds = service_account.Credentials.from_service_account_info(
-        creds, scopes=scope)
-    client = bigquery.Client(credentials=creds)
+    try:
+        creds = service_account.Credentials.from_service_account_info(
+            creds, scopes=scope)
+    except Exception as e:
+        return f"Error loading credentials: {str(e)}"
 
-    ######################################################################
-    # UPDATE BELOW & TEST
-    ######################################################################
+    try:
+        client = bigquery.Client(credentials=creds)
+    except Exception as e:
+        return f"Error creating the BigQuery client: {str(e)}"
 
     # set up table_id
     table_id = project + "." + dataset + "." + table_name
@@ -51,20 +57,22 @@ def _store_df_bigquery(creds: dict, df: pd.DataFrame, project: str,
         write_disposition = 'WRITE_EMPTY'
     # set up the config
     job_config = bigquery.LoadJobConfig(
-        schema=[bigquery.SchemaField("date", bigquery.enums.SqlTypeNames.STRING)],
         write_disposition=write_disposition
     )
-    # store
-    job = client.load_table_from_dataframe(df, table_id, job_config=job_config)
-    job.result()
 
+    # store
     try:
-        table = client.get_table(table_id)  # Make an API request.
+        job = client.load_table_from_dataframe(df, table_id,
+                                               job_config=job_config)
+        job.result()
     except Exception as e:
-        log_str = ("*******************Error*******************\n"
-                   "Error getting table from BigQuery.\n"
-                   "Error: " + str(e))
-        raise ValueError(log_str)
+        return f"Error storing BigQuery data: {str(e)}"
+
+    # test if we can access the table / double check that it saved
+    try:
+        _ = client.get_table(table_id)  # Make an API request.
+    except Exception as e:
+        return f"Error getting the saved table from BigQuery: {str(e)}"
 
 
 def main():
@@ -147,12 +155,13 @@ def main():
     # account key, not the KMS key) in a JSON file.
 
     from google.oauth2 import service_account
-    scopes = ['https://www.googleapis.com/auth/cloudkms']
-    creds = service_account.Credentials.from_service_account_info(
-        st.secrets['KMS'], scopes=scopes)
+    kms_scopes = ['https://www.googleapis.com/auth/cloudkms']
+    kms_creds = service_account.Credentials.from_service_account_info(
+        st.secrets['KMS'], scopes=kms_scopes)
     # OLD: our_credentials = 'service_account_key_file.json'
     # OLD: creds = service_account.Credentials.from_service_account_file(
     #     our_credentials, scopes=scopes)
+
 
     authenticator.register_user('main', False, 'google',
                                 encrypt_args={
@@ -160,7 +169,7 @@ def main():
                                     'location_id': 'us-central1',
                                     'key_ring_id': 'testkeyring',
                                     'key_id': 'testkey',
-                                    'kms_credentials': creds},
+                                    'kms_credentials': kms_creds},
                                 email_user='sendgrid',
                                 email_inputs={
                                     'website_name': 'SharpShares',
@@ -182,6 +191,11 @@ def main():
     if 'authenticator_user_credentials' in st.session_state:
         st.write('authenticator_user_credentials',
                  st.session_state['authenticator_user_credentials'])
+        # turn the dict into a dataframe
+        df = pd.DataFrame.from_dict(
+            st.session_state['authenticator_user_credentials'],
+            orient='index')
+        st.write('df', df)
     if 'authenticator_preauthorized' in st.session_state:
         st.write('authenticator_preauthorized',
                  st.session_state['authenticator_preauthorized'])
