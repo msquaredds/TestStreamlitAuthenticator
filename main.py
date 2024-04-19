@@ -38,9 +38,9 @@ def _store_df_bigquery(user_credentials: dict, bq_creds: dict, project: str,
     user_credentials['username'] = [user_credentials['username']]
     user_credentials['email'] = [user_credentials['email']]
     user_credentials['password'] = [user_credentials['password']]
-    # we want the index to be a utc timestamp
-    save_index = pd.to_datetime('now', utc=True)
-    df = pd.DataFrame(user_credentials, index=[save_index])
+    # we to add a utc timestamp
+    user_credentials['datetime'] = [pd.to_datetime('now', utc=True)]
+    df = pd.DataFrame(user_credentials)
 
     # connect to the database
     scope=['https://www.googleapis.com/auth/bigquery']
@@ -219,9 +219,9 @@ def main():
         save_dict['username'] = [save_dict['username']]
         save_dict['email'] = [save_dict['email']]
         save_dict['password'] = [save_dict['password']]
-        # we want the index to be a utc timestamp
-        save_index = pd.to_datetime('now', utc=True)
-        save_df = pd.DataFrame(save_dict, index=[save_index])
+        # we to add a utc timestamp
+        save_dict['datetime'] = [pd.to_datetime('now', utc=True)]
+        save_df = pd.DataFrame(save_dict)
         st.write("save_df", save_df)
 
         # pull out the str username
