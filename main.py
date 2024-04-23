@@ -190,7 +190,7 @@ def main():
                                 email_creds={'sendgrid_api_key':
                                              st.secrets['SENDGRID'][
                                                  'sendgrid_api_key']},
-                                cred_save_function=_store_df_bigquery,
+                                cred_save_function='bigquery',
                                 cred_save_args={
                                     'bq_creds': st.secrets['BIGQUERY'],
                                     'project': 'teststreamlitauth-412915',
