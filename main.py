@@ -224,10 +224,10 @@ def main():
         save_df = pd.DataFrame(save_dict)
         st.write("save_df", save_df)
 
-        # pull out the str username
+        # # pull out the str username
         # username = save_df['username'].values[0]
         # st.write("username", username)
-        # decrypt the username
+        # # decrypt the username
         # decryptor = stauth.GoogleEncryptor('teststreamlitauth-412915',
         #                                    'us-central1',
         #                                    'testkeyring',
@@ -278,19 +278,19 @@ def main():
     ##########################################################
     # Login / Logout / Authentication Status
     ##########################################################
-    # authenticator.login('Login', 'main')
-    #
-    # if st.session_state["authentication_status"]:
-    #     authenticator.logout('Logout', 'main', key='unique_key')
-    #     st.write(f'Welcome *{st.session_state["name"]}*')
-    #     st.title('Some content')
-    #     authenticator.token['exp_date'] = date.fromtimestamp(
-    #         authenticator.token['exp_date'])
-    #     st.write(authenticator.token)
-    # elif st.session_state["authentication_status"] is False:
-    #     st.error('Username/password is incorrect')
-    # elif st.session_state["authentication_status"] is None:
-    #     st.warning('Please enter your username and password')
+    authenticator.login('Login', 'main')
+
+    if st.session_state["authentication_status"]:
+        authenticator.logout('Logout', 'main', key='unique_key')
+        st.write(f'Welcome *{st.session_state["name"]}*')
+        st.title('Some content')
+        authenticator.token['exp_date'] = date.fromtimestamp(
+            authenticator.token['exp_date'])
+        st.write(authenticator.token)
+    elif st.session_state["authentication_status"] is False:
+        st.error('Username/password is incorrect')
+    elif st.session_state["authentication_status"] is None:
+        st.warning('Please enter your username and password')
 
     ##########################################################
     # Forgot Username
