@@ -142,6 +142,8 @@ def main():
     # 'generic' vs 'google'
     # we also tested the decrypt function, which is not used in the
     # register_user function, but was created for completeness
+    # some of the email and save functionality was originally tested
+    # separately, but hten tested here too
 
     if ('stauth' in st.session_state and
             'dev_errors' in st.session_state['stauth'].keys() and
@@ -237,6 +239,12 @@ def main():
         # st.write("decrypted_username", str(
         #     decrypted_username.plaintext).replace("b'", "").replace("'", ""))
 
+    ##########################################################
+    # Login
+    ##########################################################
+    st.write('---')
+    authenticator.login('main')
+
 
 
 
@@ -278,19 +286,19 @@ def main():
     ##########################################################
     # Login / Logout / Authentication Status
     ##########################################################
-    authenticator.login('Login', 'main')
-
-    if st.session_state["authentication_status"]:
-        authenticator.logout('Logout', 'main', key='unique_key')
-        st.write(f'Welcome *{st.session_state["name"]}*')
-        st.title('Some content')
-        authenticator.token['exp_date'] = date.fromtimestamp(
-            authenticator.token['exp_date'])
-        st.write(authenticator.token)
-    elif st.session_state["authentication_status"] is False:
-        st.error('Username/password is incorrect')
-    elif st.session_state["authentication_status"] is None:
-        st.warning('Please enter your username and password')
+    # authenticator.login('Login', 'main')
+    #
+    # if st.session_state["authentication_status"]:
+    #     authenticator.logout('Logout', 'main', key='unique_key')
+    #     st.write(f'Welcome *{st.session_state["name"]}*')
+    #     st.title('Some content')
+    #     authenticator.token['exp_date'] = date.fromtimestamp(
+    #         authenticator.token['exp_date'])
+    #     st.write(authenticator.token)
+    # elif st.session_state["authentication_status"] is False:
+    #     st.error('Username/password is incorrect')
+    # elif st.session_state["authentication_status"] is None:
+    #     st.warning('Please enter your username and password')
 
     ##########################################################
     # Forgot Username
