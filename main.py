@@ -213,19 +213,18 @@ def main():
         st.write('authenticator_user_credentials',
                  st.session_state['authenticator_user_credentials'])
 
-        # here we tested turning the credentials dictionary into a
-        # dataframe and also making sure that once we put it into a
-        # dataframe we could pull it back out and decrypt it
-        # turn the dict into a dataframe
-        save_dict = st.session_state['authenticator_user_credentials'].copy()
-        save_dict['username'] = [save_dict['username']]
-        save_dict['email'] = [save_dict['email']]
-        save_dict['password'] = [save_dict['password']]
-        # we to add a utc timestamp
-        save_dict['datetime'] = [pd.to_datetime('now', utc=True)]
-        save_df = pd.DataFrame(save_dict)
-        st.write("save_df", save_df)
-
+        # # here we tested turning the credentials dictionary into a
+        # # dataframe and also making sure that once we put it into a
+        # # dataframe we could pull it back out and decrypt it
+        # # turn the dict into a dataframe
+        # save_dict = st.session_state['authenticator_user_credentials'].copy()
+        # save_dict['username'] = [save_dict['username']]
+        # save_dict['email'] = [save_dict['email']]
+        # save_dict['password'] = [save_dict['password']]
+        # # we to add a utc timestamp
+        # save_dict['datetime'] = [pd.to_datetime('now', utc=True)]
+        # save_df = pd.DataFrame(save_dict)
+        # st.write("save_df", save_df)
         # # pull out the str username
         # username = save_df['username'].values[0]
         # st.write("username", username)
@@ -243,7 +242,31 @@ def main():
     # Login
     ##########################################################
     st.write('---')
-    authenticator.login('main')
+    if not authenticator.check_authentication_status(
+        encrypt_type='google',
+        encrypt_args={
+            'project_id': 'teststreamlitauth-412915',
+            'location_id': 'us-central1',
+            'key_ring_id': 'testkeyring',
+            'key_id': 'testkey',
+            'kms_credentials': kms_creds}):
+
+        authenticator.login(location='main',
+                            password_pull_function='bigquery',
+                            password_pull_args={
+                                'bq_creds': st.secrets['BIGQUERY'],
+                                'project': 'teststreamlitauth-412915',
+                                'dataset': 'test_credentials',
+                                'table_name': 'user_credentials',
+                                'username_col': 'username'},
+                            encrypt_type='google',
+                            encrypt_args={
+                                'project_id': 'teststreamlitauth-412915',
+                                'location_id': 'us-central1',
+                                'key_ring_id': 'testkeyring',
+                                'key_id': 'testkey',
+                                'kms_credentials': kms_creds}
+                            )
 
 
 
