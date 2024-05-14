@@ -242,6 +242,24 @@ def main():
     # Login
     ##########################################################
     st.write('---')
+
+    db_engine = stauth.DBTools()
+    usernames_indicator, saved_auth_usernames = (
+        db_engine.pull_usernames_bigquery(
+            bq_creds = st.secrets['BIGQUERY'],
+            project = 'teststreamlitauth-412915',
+            dataset = 'test_credentials',
+            table_name = 'user_credentials',
+            username_col = 'username'))
+    if usernames_indicator == 'dev_errors':
+        st.error(saved_auth_usernames)
+        return None
+    elif usernames_indicator == 'user_errors':
+        st.error("No usernames found")
+        return None
+    else:
+        st.write("saved_auth_usernames", saved_auth_usernames)
+
     if not authenticator.check_authentication_status(
         encrypt_type='google',
         encrypt_args={
@@ -250,6 +268,17 @@ def main():
             'key_ring_id': 'testkeyring',
             'key_id': 'testkey',
             'kms_credentials': kms_creds}):
+
+        if ('stauth' in st.session_state and
+                'dev_errors' in st.session_state['stauth'].keys() and
+                'login' in st.session_state['stauth']['dev_errors'].keys()):
+            st.error(f"dev_error: "
+                     f"{st.session_state['stauth']['dev_errors']['login']}")
+        elif ('stauth' in st.session_state and
+              'user_errors' in st.session_state['stauth'].keys() and
+              'login' in st.session_state['stauth']['user_errors'].keys()):
+            st.error(f"user_error: "
+                     f"{st.session_state['stauth']['user_errors']['login']}")
 
         authenticator.login(location='main',
                             password_pull_function='bigquery',
