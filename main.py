@@ -265,7 +265,8 @@ def main():
                                            'testkey',
                                            kms_creds)
         auth_usernames = [
-            decryptor.decrypt(i).plaintext.replace("b'", "").replace("'", "")
+            str(decryptor.decrypt(i).plaintext
+                ).replace("b'", "").replace("'", "")
             for i in saved_auth_usernames]
         st.write("auth_usernames", auth_usernames)
 
