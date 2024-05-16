@@ -264,7 +264,8 @@ def main():
                                 'project': 'teststreamlitauth-412915',
                                 'dataset': 'test_credentials',
                                 'table_name': 'user_credentials',
-                                'username_col': 'username'},
+                                'username_col': 'username',
+                                'password_col': 'password'},
                             encrypt_type='google',
                             encrypt_args={
                                 'project_id': 'teststreamlitauth-412915',
