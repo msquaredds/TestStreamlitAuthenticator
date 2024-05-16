@@ -34,29 +34,107 @@ def main():
     # st.write(streamlit_package)
     ######################################################################
 
+    # here we pull in the credentials for the google cloud service account
+    # that allows us to access the KMS (key management service) to encrypt
+    # and decrypt data.
+    # in this case, we used a service account to do so.
+    # this service account must be permissioned (at a minimum) as a
+    # "Cloud KMS CryptoKey Encrypter/Decrypter" in order to use the KMS.
+    # our_credentials is just a file that stores the key info (the service
+    # account key, not the KMS key) in a JSON file.
+
+    kms_scopes = ['https://www.googleapis.com/auth/cloudkms']
+    kms_creds = service_account.Credentials.from_service_account_info(
+        st.secrets['KMS'], scopes=kms_scopes)
+    # OLD: our_credentials = 'service_account_key_file.json'
+    # OLD: creds = service_account.Credentials.from_service_account_file(
+    #     our_credentials, scopes=scopes)
+
+    ##########################################################
+    # Get Stored Data
+    ##########################################################
+    # get the stored usernames and emails
+    db_engine = stauth.DBTools()
+    usernames_indicator, saved_auth_usernames = (
+        db_engine.pull_full_column_bigquery(
+            bq_creds = st.secrets['BIGQUERY'],
+            project = 'teststreamlitauth-412915',
+            dataset = 'test_credentials',
+            table_name = 'user_credentials',
+            target_col = 'username'))
+    if usernames_indicator == 'dev_errors':
+        st.error(saved_auth_usernames)
+        return None
+    elif usernames_indicator == 'user_errors':
+        st.error("No usernames found")
+        return None
+    else:
+        st.write("saved_auth_usernames", saved_auth_usernames)
+        decryptor = stauth.GoogleEncryptor('teststreamlitauth-412915',
+                                           'us-central1',
+                                           'testkeyring',
+                                           'testkey',
+                                           kms_creds)
+        auth_usernames_dec_enc = {
+            str(decryptor.decrypt(i).plaintext
+                ).replace("b'", "").replace("'", ""): i
+            for i in saved_auth_usernames}
+        st.write("auth_usernames_dec_enc", auth_usernames_dec_enc)
+        auth_usernames = list(auth_usernames_dec_enc.keys())
+        st.write("auth_usernames", auth_usernames)
+    emails_indicator, saved_auth_emails = (
+        db_engine.pull_full_column_bigquery(
+            bq_creds = st.secrets['BIGQUERY'],
+            project = 'teststreamlitauth-412915',
+            dataset = 'test_credentials',
+            table_name = 'user_credentials',
+            target_col = 'email'))
+    if emails_indicator == 'dev_errors':
+        st.error(saved_auth_emails)
+        return None
+    elif emails_indicator == 'user_errors':
+        st.error("No emails found")
+        return None
+    else:
+        st.write("saved_auth_emails", saved_auth_emails)
+        decryptor = stauth.GoogleEncryptor('teststreamlitauth-412915',
+                                           'us-central1',
+                                           'testkeyring',
+                                           'testkey',
+                                           kms_creds)
+        auth_emails = [
+            str(decryptor.decrypt(i).plaintext
+                ).replace("b'", "").replace("'", "")
+            for i in saved_auth_emails]
+        st.write("auth_emails", auth_emails)
+    if 'authenticator_usernames' not in st.session_state:
+        st.session_state['authenticator_usernames'] = auth_usernames
+    if 'authenticator_emails' not in st.session_state:
+        st.session_state['authenticator_emails'] = auth_emails
+    if 'authenticator_preauthorized' not in st.session_state:
+        st.session_state['authenticator_preauthorized'] = None
+
+    # This was an old way to get user data, which was from a yaml file,
+    # but was replaced by the BigQuery method above.
     # use for testing, but ideally we want to store and load from a more
     # secure location, like a database
     with open('config.yaml') as file:
         config = yaml.load(file, Loader=SafeLoader)
-
-    #st.write("config", config)
-
     # put usernames and emails into a list
-    usernames = [i for i in config['credentials']['usernames'].keys()]
-    emails = [config['credentials']['usernames'][i]['email']
-              for i in usernames]
+    # usernames = [i for i in config['credentials']['usernames'].keys()]
+    # emails = [config['credentials']['usernames'][i]['email']
+    #           for i in usernames]
+    # if 'authenticator_usernames' not in st.session_state:
+    #     st.session_state['authenticator_usernames'] = usernames
+    # if 'authenticator_emails' not in st.session_state:
+    #     st.session_state['authenticator_emails'] = emails
+    # if 'authenticator_preauthorized' not in st.session_state:
+    #     st.session_state['authenticator_preauthorized'] = config[
+    #         'preauthorized']['emails']
 
-    #st.write("usernames", usernames)
-    #st.write("emails", emails)
-
-    if 'authenticator_usernames' not in st.session_state:
-        st.session_state['authenticator_usernames'] = usernames
-    if 'authenticator_emails' not in st.session_state:
-        st.session_state['authenticator_emails'] = emails
-    if 'authenticator_preauthorized' not in st.session_state:
-        st.session_state['authenticator_preauthorized'] = config[
-            'preauthorized']['emails']
-
+    ##########################################################
+    # Class Instantiation
+    ##########################################################
     authenticator = stauth.Authenticate(
         usernames_session_state='authenticator_usernames',
         emails_session_state='authenticator_emails',
@@ -89,24 +167,6 @@ def main():
           'register_user' in st.session_state['stauth']['user_errors'].keys()):
         st.error(f"user_error: "
                  f"{st.session_state['stauth']['user_errors']['register_user']}")
-
-    # here we pull in the credentials for the google cloud service account
-    # that allows us to access the KMS (key management service) to encrypt
-    # and decrypt data.
-    # in this case, we used a service account to do so.
-    # this service account must be permissioned (at a minimum) as a
-    # "Cloud KMS CryptoKey Encrypter/Decrypter" in order to use the KMS.
-    # our_credentials is just a file that stores the key info (the service
-    # account key, not the KMS key) in a JSON file.
-
-    from google.oauth2 import service_account
-    kms_scopes = ['https://www.googleapis.com/auth/cloudkms']
-    kms_creds = service_account.Credentials.from_service_account_info(
-        st.secrets['KMS'], scopes=kms_scopes)
-    # OLD: our_credentials = 'service_account_key_file.json'
-    # OLD: creds = service_account.Credentials.from_service_account_file(
-    #     our_credentials, scopes=scopes)
-
 
     authenticator.register_user('main', False, 'google',
                                 encrypt_args={
@@ -176,61 +236,6 @@ def main():
     # Login
     ##########################################################
     st.write('---')
-
-    # get the stored usernames and emails
-    db_engine = stauth.DBTools()
-    usernames_indicator, saved_auth_usernames = (
-        db_engine.pull_full_column_bigquery(
-            bq_creds = st.secrets['BIGQUERY'],
-            project = 'teststreamlitauth-412915',
-            dataset = 'test_credentials',
-            table_name = 'user_credentials',
-            target_col = 'username'))
-    if usernames_indicator == 'dev_errors':
-        st.error(saved_auth_usernames)
-        return None
-    elif usernames_indicator == 'user_errors':
-        st.error("No usernames found")
-        return None
-    else:
-        st.write("saved_auth_usernames", saved_auth_usernames)
-        decryptor = stauth.GoogleEncryptor('teststreamlitauth-412915',
-                                           'us-central1',
-                                           'testkeyring',
-                                           'testkey',
-                                           kms_creds)
-        auth_usernames_dec_enc = {
-            str(decryptor.decrypt(i).plaintext
-                ).replace("b'", "").replace("'", ""): i
-            for i in saved_auth_usernames}
-        st.write("auth_usernames_dec_enc", auth_usernames_dec_enc)
-        auth_usernames = list(auth_usernames_dec_enc.keys())
-        st.write("auth_usernames", auth_usernames)
-    emails_indicator, saved_auth_emails = (
-        db_engine.pull_full_column_bigquery(
-            bq_creds = st.secrets['BIGQUERY'],
-            project = 'teststreamlitauth-412915',
-            dataset = 'test_credentials',
-            table_name = 'user_credentials',
-            target_col = 'email'))
-    if emails_indicator == 'dev_errors':
-        st.error(saved_auth_emails)
-        return None
-    elif emails_indicator == 'user_errors':
-        st.error("No emails found")
-        return None
-    else:
-        st.write("saved_auth_emails", saved_auth_emails)
-        decryptor = stauth.GoogleEncryptor('teststreamlitauth-412915',
-                                           'us-central1',
-                                           'testkeyring',
-                                           'testkey',
-                                           kms_creds)
-        auth_emails = [
-            str(decryptor.decrypt(i).plaintext
-                ).replace("b'", "").replace("'", "")
-            for i in saved_auth_emails]
-        st.write("auth_emails", auth_emails)
 
     if not authenticator.check_authentication_status(
         encrypt_type='google',
