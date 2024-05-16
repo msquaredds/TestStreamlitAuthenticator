@@ -264,7 +264,9 @@ def main():
                                            'testkeyring',
                                            'testkey',
                                            kms_creds)
-        auth_usernames = [decryptor.decrypt(i) for i in saved_auth_usernames]
+        auth_usernames = [decryptor.decrypt(i).plaintext for i in
+                          saved_auth_usernames]
+        # .plaintext).replace("b'", "").replace("'", "")
         st.write("auth_usernames", auth_usernames)
 
     if not authenticator.check_authentication_status(
