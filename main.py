@@ -243,6 +243,8 @@ def main():
     ##########################################################
     st.write('---')
 
+    # get the stored usernames first, so we can check against them in the
+    # login function
     db_engine = stauth.DBTools()
     usernames_indicator, saved_auth_usernames = (
         db_engine.pull_usernames_bigquery(
@@ -264,10 +266,10 @@ def main():
                                            'testkeyring',
                                            'testkey',
                                            kms_creds)
-        auth_usernames = [
+        auth_usernames = {
             str(decryptor.decrypt(i).plaintext
-                ).replace("b'", "").replace("'", "")
-            for i in saved_auth_usernames]
+                ).replace("b'", "").replace("'", ""): i
+            for i in saved_auth_usernames}
         st.write("auth_usernames", auth_usernames)
 
     if not authenticator.check_authentication_status(
