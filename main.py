@@ -18,72 +18,6 @@ from yaml.loader import SafeLoader
 import StreamlitAuth as stauth
 
 
-def _store_df_bigquery(user_credentials: dict, bq_creds: dict, project: str,
-                       dataset: str, table_name: str,
-                       if_exists: str='append') -> Union[None, str]:
-    """
-    Creating a test function that allows for storing data, since we will
-        try passing this function into the register_user function.
-    :param user_credentials: The user credentials to store.
-    :param bq_creds: The credentials to access the BigQuery project. These
-        should, at a minimum, have the role of "BigQuery Data Editor".
-    :param project: The project to store the data in.
-    :param dataset: The dataset to store the data in.
-    :param table_name: The name of the table to store the data in.
-    :param if_exists: What to do if the table already exists.
-        Can be 'append', 'replace', or 'fail'. Default is 'append'.
-    :return: None if successful, error message if not.
-    """
-    # turn the user credentials into a dataframe
-    user_credentials['username'] = [user_credentials['username']]
-    user_credentials['email'] = [user_credentials['email']]
-    user_credentials['password'] = [user_credentials['password']]
-    # we to add a utc timestamp
-    user_credentials['datetime'] = [pd.to_datetime('now', utc=True)]
-    df = pd.DataFrame(user_credentials)
-
-    # connect to the database
-    scope=['https://www.googleapis.com/auth/bigquery']
-    try:
-        creds = service_account.Credentials.from_service_account_info(
-            bq_creds, scopes=scope)
-    except Exception as e:
-        return f"Error loading credentials: {str(e)}"
-
-    try:
-        client = bigquery.Client(credentials=creds)
-    except Exception as e:
-        return f"Error creating the BigQuery client: {str(e)}"
-
-    # set up table_id
-    table_id = project + "." + dataset + "." + table_name
-    # determine behavior if table already exists
-    if if_exists == 'append':
-        write_disposition = 'WRITE_APPEND'
-    elif if_exists == 'replace':
-        write_disposition = 'WRITE_TRUNCATE'
-    else:
-        write_disposition = 'WRITE_EMPTY'
-    # set up the config
-    job_config = bigquery.LoadJobConfig(
-        write_disposition=write_disposition
-    )
-
-    # store
-    try:
-        job = client.load_table_from_dataframe(df, table_id,
-                                               job_config=job_config)
-        job.result()
-    except Exception as e:
-        return f"Error storing BigQuery data: {str(e)}"
-
-    # test if we can access the table / double check that it saved
-    try:
-        _ = client.get_table(table_id)  # Make an API request.
-    except Exception as e:
-        return f"Error getting the saved table from BigQuery: {str(e)}"
-
-
 def main():
     # st.write('Hello World!')
 
@@ -243,16 +177,15 @@ def main():
     ##########################################################
     st.write('---')
 
-    # get the stored usernames first, so we can check against them in the
-    # login function
+    # get the stored usernames and emails
     db_engine = stauth.DBTools()
     usernames_indicator, saved_auth_usernames = (
-        db_engine.pull_usernames_bigquery(
+        db_engine.pull_full_column_bigquery(
             bq_creds = st.secrets['BIGQUERY'],
             project = 'teststreamlitauth-412915',
             dataset = 'test_credentials',
             table_name = 'user_credentials',
-            username_col = 'username'))
+            target_col = 'username'))
     if usernames_indicator == 'dev_errors':
         st.error(saved_auth_usernames)
         return None
@@ -273,6 +206,31 @@ def main():
         st.write("auth_usernames_dec_enc", auth_usernames_dec_enc)
         auth_usernames = list(auth_usernames_dec_enc.keys())
         st.write("auth_usernames", auth_usernames)
+    emails_indicator, saved_auth_emails = (
+        db_engine.pull_full_column_bigquery(
+            bq_creds = st.secrets['BIGQUERY'],
+            project = 'teststreamlitauth-412915',
+            dataset = 'test_credentials',
+            table_name = 'user_credentials',
+            target_col = 'email'))
+    if emails_indicator == 'dev_errors':
+        st.error(saved_auth_emails)
+        return None
+    elif emails_indicator == 'user_errors':
+        st.error("No emails found")
+        return None
+    else:
+        st.write("saved_auth_emails", saved_auth_emails)
+        decryptor = stauth.GoogleEncryptor('teststreamlitauth-412915',
+                                           'us-central1',
+                                           'testkeyring',
+                                           'testkey',
+                                           kms_creds)
+        auth_emails = [
+            str(decryptor.decrypt(i).plaintext
+                ).replace("b'", "").replace("'", "")
+            for i in saved_auth_emails]
+        st.write("auth_emails", auth_emails)
 
     if not authenticator.check_authentication_status(
         encrypt_type='google',
@@ -422,6 +380,73 @@ def main():
     #                      'usernames'][st.session_state["username"]])
     #     except Exception as e:
     #         st.error(e)
+
+
+def _store_df_bigquery(user_credentials: dict, bq_creds: dict, project: str,
+                       dataset: str, table_name: str,
+                       if_exists: str='append') -> Union[None, str]:
+    """
+    Creating a test function that allows for storing data, since we will
+        try passing this function into the register_user function.
+    This is old and was replaced by a pre-defined method in our package.
+    :param user_credentials: The user credentials to store.
+    :param bq_creds: The credentials to access the BigQuery project. These
+        should, at a minimum, have the role of "BigQuery Data Editor".
+    :param project: The project to store the data in.
+    :param dataset: The dataset to store the data in.
+    :param table_name: The name of the table to store the data in.
+    :param if_exists: What to do if the table already exists.
+        Can be 'append', 'replace', or 'fail'. Default is 'append'.
+    :return: None if successful, error message if not.
+    """
+    # turn the user credentials into a dataframe
+    user_credentials['username'] = [user_credentials['username']]
+    user_credentials['email'] = [user_credentials['email']]
+    user_credentials['password'] = [user_credentials['password']]
+    # we to add a utc timestamp
+    user_credentials['datetime'] = [pd.to_datetime('now', utc=True)]
+    df = pd.DataFrame(user_credentials)
+
+    # connect to the database
+    scope=['https://www.googleapis.com/auth/bigquery']
+    try:
+        creds = service_account.Credentials.from_service_account_info(
+            bq_creds, scopes=scope)
+    except Exception as e:
+        return f"Error loading credentials: {str(e)}"
+
+    try:
+        client = bigquery.Client(credentials=creds)
+    except Exception as e:
+        return f"Error creating the BigQuery client: {str(e)}"
+
+    # set up table_id
+    table_id = project + "." + dataset + "." + table_name
+    # determine behavior if table already exists
+    if if_exists == 'append':
+        write_disposition = 'WRITE_APPEND'
+    elif if_exists == 'replace':
+        write_disposition = 'WRITE_TRUNCATE'
+    else:
+        write_disposition = 'WRITE_EMPTY'
+    # set up the config
+    job_config = bigquery.LoadJobConfig(
+        write_disposition=write_disposition
+    )
+
+    # store
+    try:
+        job = client.load_table_from_dataframe(df, table_id,
+                                               job_config=job_config)
+        job.result()
+    except Exception as e:
+        return f"Error storing BigQuery data: {str(e)}"
+
+    # test if we can access the table / double check that it saved
+    try:
+        _ = client.get_table(table_id)  # Make an API request.
+    except Exception as e:
+        return f"Error getting the saved table from BigQuery: {str(e)}"
 
 
 if __name__ == '__main__':
