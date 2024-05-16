@@ -259,6 +259,13 @@ def main():
         return None
     else:
         st.write("saved_auth_usernames", saved_auth_usernames)
+        decryptor = stauth.GoogleEncryptor('teststreamlitauth-412915',
+                                           'us-central1',
+                                           'testkeyring',
+                                           'testkey',
+                                           kms_creds)
+        auth_usernames = [decryptor.decrypt(i) for i in saved_auth_usernames]
+        st.write("auth_usernames", auth_usernames)
 
     if not authenticator.check_authentication_status(
         encrypt_type='google',
