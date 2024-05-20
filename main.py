@@ -256,7 +256,7 @@ def main():
             st.error(f"user_error: "
                      f"{st.session_state['stauth']['user_errors']['login']}")
 
-        authenticator.login(location='main',
+        authenticator.login(location='sidebar',
                             password_pull_function='bigquery',
                             password_pull_args={
                                 'bq_creds': st.secrets['BIGQUERY'],
@@ -274,9 +274,10 @@ def main():
                                 'kms_credentials': kms_creds}
                             )
 
-    if 'authentication_status' in st.session_state:
+    if ('stauth' in st.session_state and 'authentication_status' in
+            st.session_state.stauth.keys()):
         st.write('authentication_status',
-                 st.session_state['authentication_status'])
+                 st.session_state.stauth['authentication_status'])
 
 
 
