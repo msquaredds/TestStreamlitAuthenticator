@@ -193,7 +193,6 @@ def main():
                                     'dataset': 'test_credentials',
                                     'table_name': 'user_credentials'})
 
-
     if 'authenticator_usernames' in st.session_state:
         st.write('authenticator_usernames',
                  st.session_state['authenticator_usernames'])
@@ -275,7 +274,9 @@ def main():
                                 'kms_credentials': kms_creds}
                             )
 
-
+    if 'authentication_status' in st.session_state:
+        st.write('authentication_status',
+                 st.session_state['authentication_status'])
 
 
 
