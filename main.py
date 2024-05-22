@@ -241,7 +241,7 @@ def main():
                      f"{st.session_state['stauth']['user_errors']['login']}")
 
         authenticator.login(location='main',
-                            password_pull_function='hi',
+                            password_pull_function='bigquery',
                             password_pull_args={
                                 'bq_creds': st.secrets['BIGQUERY'],
                                 'project': 'teststreamlitauth-412915',
