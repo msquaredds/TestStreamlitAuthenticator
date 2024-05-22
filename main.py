@@ -70,17 +70,7 @@ def main():
         return None
     else:
         st.write("saved_auth_usernames", saved_auth_usernames)
-        decryptor = stauth.GoogleEncryptor('teststreamlitauth-412915',
-                                           'us-central1',
-                                           'testkeyring',
-                                           'testkey',
-                                           kms_creds)
-        auth_usernames_dec_enc = {
-            str(decryptor.decrypt(i).plaintext
-                ).replace("b'", "").replace("'", ""): i
-            for i in saved_auth_usernames}
-        st.write("auth_usernames_dec_enc", auth_usernames_dec_enc)
-        auth_usernames = list(auth_usernames_dec_enc.keys())
+        auth_usernames = list(saved_auth_usernames.values)
         st.write("auth_usernames", auth_usernames)
     emails_indicator, saved_auth_emails = (
         db_engine.pull_full_column_bigquery(
@@ -97,16 +87,9 @@ def main():
         return None
     else:
         st.write("saved_auth_emails", saved_auth_emails)
-        decryptor = stauth.GoogleEncryptor('teststreamlitauth-412915',
-                                           'us-central1',
-                                           'testkeyring',
-                                           'testkey',
-                                           kms_creds)
-        auth_emails = [
-            str(decryptor.decrypt(i).plaintext
-                ).replace("b'", "").replace("'", "")
-            for i in saved_auth_emails]
+        auth_emails = list(saved_auth_emails.values)
         st.write("auth_emails", auth_emails)
+
     if 'authenticator_usernames' not in st.session_state:
         st.session_state['authenticator_usernames'] = auth_usernames
     if 'authenticator_emails' not in st.session_state:
@@ -168,13 +151,14 @@ def main():
         st.error(f"user_error: "
                  f"{st.session_state['stauth']['user_errors']['register_user']}")
 
-    authenticator.register_user('main', False, 'google',
-                                encrypt_args={
-                                    'project_id': 'teststreamlitauth-412915',
-                                    'location_id': 'us-central1',
-                                    'key_ring_id': 'testkeyring',
-                                    'key_id': 'testkey',
-                                    'kms_credentials': kms_creds},
+    authenticator.register_user('main', False,
+                                # 'google',
+                                # encrypt_args={
+                                #     'project_id': 'teststreamlitauth-412915',
+                                #     'location_id': 'us-central1',
+                                #     'key_ring_id': 'testkeyring',
+                                #     'key_id': 'testkey',
+                                #     'kms_credentials': kms_creds},
                                 email_user='sendgrid',
                                 email_inputs={
                                     'website_name': 'SharpShares',
