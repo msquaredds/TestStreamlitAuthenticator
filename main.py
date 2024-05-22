@@ -55,46 +55,40 @@ def main():
     ##########################################################
     # get the stored usernames and emails
     db_engine = stauth.DBTools()
-    try:
-        usernames_indicator, saved_auth_usernames = (
-            db_engine.pull_full_column_bigquery(
-                bq_creds = st.secrets['BIGQUERY'],
-                project = 'teststreamlitauth-412915',
-                dataset = 'test_credentials',
-                table_name = 'user_credentials',
-                target_col = 'username'))
-        if usernames_indicator == 'dev_errors':
-            st.error(saved_auth_usernames)
-            return None
-        elif usernames_indicator == 'user_errors':
-            st.error("No usernames found")
-            return None
-        else:
-            st.write("saved_auth_usernames", saved_auth_usernames)
-            auth_usernames = list(saved_auth_usernames.values)
-            st.write("auth_usernames", auth_usernames)
-    except Exception as e:
+    usernames_indicator, saved_auth_usernames = (
+        db_engine.pull_full_column_bigquery(
+            bq_creds = st.secrets['BIGQUERY'],
+            project = 'teststreamlitauth-412915',
+            dataset = 'test_credentials',
+            table_name = 'user_credentials',
+            target_col = 'username'))
+    if usernames_indicator == 'dev_errors':
+        st.error(saved_auth_usernames)
         auth_usernames = []
-    try:
-        emails_indicator, saved_auth_emails = (
-            db_engine.pull_full_column_bigquery(
-                bq_creds = st.secrets['BIGQUERY'],
-                project = 'teststreamlitauth-412915',
-                dataset = 'test_credentials',
-                table_name = 'user_credentials',
-                target_col = 'email'))
-        if emails_indicator == 'dev_errors':
-            st.error(saved_auth_emails)
-            return None
-        elif emails_indicator == 'user_errors':
-            st.error("No emails found")
-            return None
-        else:
-            st.write("saved_auth_emails", saved_auth_emails)
-            auth_emails = list(saved_auth_emails.values)
-            st.write("auth_emails", auth_emails)
-    except Exception as e:
+    elif usernames_indicator == 'user_errors':
+        st.error("No usernames found")
+        auth_usernames = []
+    else:
+        st.write("saved_auth_usernames", saved_auth_usernames)
+        auth_usernames = list(saved_auth_usernames.values)
+        st.write("auth_usernames", auth_usernames)
+    emails_indicator, saved_auth_emails = (
+        db_engine.pull_full_column_bigquery(
+            bq_creds = st.secrets['BIGQUERY'],
+            project = 'teststreamlitauth-412915',
+            dataset = 'test_credentials',
+            table_name = 'user_credentials',
+            target_col = 'email'))
+    if emails_indicator == 'dev_errors':
+        st.error(saved_auth_emails)
         auth_emails = []
+    elif emails_indicator == 'user_errors':
+        st.error("No emails found")
+        auth_emails = []
+    else:
+        st.write("saved_auth_emails", saved_auth_emails)
+        auth_emails = list(saved_auth_emails.values)
+        st.write("auth_emails", auth_emails)
 
     if 'authenticator_usernames' not in st.session_state:
         st.session_state['authenticator_usernames'] = auth_usernames
