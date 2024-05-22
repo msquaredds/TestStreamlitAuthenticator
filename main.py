@@ -249,13 +249,13 @@ def main():
                                 'table_name': 'user_credentials',
                                 'username_col': 'username',
                                 'password_col': 'password'},
-                            encrypt_type_username='google',
-                            encrypt_args_username={
-                                'project_id': 'teststreamlitauth-412915',
-                                'location_id': 'us-central1',
-                                'key_ring_id': 'testkeyring',
-                                'key_id': 'testkey',
-                                'kms_credentials': kms_creds},
+                            # encrypt_type_username='google',
+                            # encrypt_args_username={
+                            #     'project_id': 'teststreamlitauth-412915',
+                            #     'location_id': 'us-central1',
+                            #     'key_ring_id': 'testkeyring',
+                            #     'key_id': 'testkey',
+                            #     'kms_credentials': kms_creds},
                             encrypt_type_cookie='google',
                             encrypt_args_cookie={
                                 'project_id': 'teststreamlitauth-412915',
