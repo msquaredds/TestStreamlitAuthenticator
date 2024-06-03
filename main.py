@@ -101,8 +101,8 @@ def main():
     # but was replaced by the BigQuery method above.
     # use for testing, but ideally we want to store and load from a more
     # secure location, like a database
-    with open('config.yaml') as file:
-        config = yaml.load(file, Loader=SafeLoader)
+    # with open('config.yaml') as file:
+    #     config = yaml.load(file, Loader=SafeLoader)
     # put usernames and emails into a list
     # usernames = [i for i in config['credentials']['usernames'].keys()]
     # emails = [config['credentials']['usernames'][i]['email']
@@ -122,11 +122,14 @@ def main():
         usernames_session_state='authenticator_usernames',
         emails_session_state='authenticator_emails',
         user_credentials_session_state='authenticator_user_credentials',
-        preauthorized_session_state='authenticator_preauthorized',
-        cookie_name=config['cookie']['name'],
-        cookie_key=config['cookie']['key'],
-        cookie_expiry_days=config['cookie']['expiry_days']
-    )
+        preauthorized_session_state='authenticator_preauthorized')
+    # # an old version of Authenticate took cookie info, but that was
+    # # deprecated on 06_03_2024 since it is less secure and I couldn't find
+    # # good info online about how to do it well
+    #     cookie_name=config['cookie']['name'],
+    #     cookie_key=config['cookie']['key'],
+    #     cookie_expiry_days=config['cookie']['expiry_days']
+    # )
 
     ##########################################################
     # Sign Up
@@ -152,6 +155,10 @@ def main():
                  f"{st.session_state['stauth']['user_errors']['register_user']}")
 
     authenticator.register_user('main', False,
+                                # # an old version encrypted the username
+                                # # and email, but that was deprecated on
+                                # # 05_22_2024 since it was unnecessary
+                                # # and added complexity
                                 # 'google',
                                 # encrypt_args={
                                 #     'project_id': 'teststreamlitauth-412915',
@@ -164,6 +171,7 @@ def main():
                                     'website_name': 'SharpShares',
                                     'website_email':
                                         'hello@sharpshares.com'},
+                                # # this is just another way to send email
                                 # email_creds={
                                 #     'oauth2_credentials_secrets_dict':
                                 #         st.secrets['GMAIL']}
@@ -220,14 +228,17 @@ def main():
     ##########################################################
     st.write('---')
 
-    if not authenticator.check_authentication_status(
-        encrypt_type='google',
-        encrypt_args={
-            'project_id': 'teststreamlitauth-412915',
-            'location_id': 'us-central1',
-            'key_ring_id': 'testkeyring',
-            'key_id': 'testkey',
-            'kms_credentials': kms_creds}):
+    if not authenticator.check_authentication_status():
+        # # an old version created an encrypted cookie to store the login
+        # # that was deprecated on 06_03_2024 since it was less secure
+        # # and I couldn't find good info online about how to do it well
+        # encrypt_type='google',
+        # encrypt_args={
+        #     'project_id': 'teststreamlitauth-412915',
+        #     'location_id': 'us-central1',
+        #     'key_ring_id': 'testkeyring',
+        #     'key_id': 'testkey',
+        #     'kms_credentials': kms_creds}):
 
         if ('stauth' in st.session_state and
                 'dev_errors' in st.session_state['stauth'].keys() and
@@ -248,7 +259,11 @@ def main():
                                 'dataset': 'test_credentials',
                                 'table_name': 'user_credentials',
                                 'username_col': 'username',
-                                'password_col': 'password'},
+                                'password_col': 'password'})
+                            # # an old version encrypted the username
+                            # # and email, but that was deprecated on
+                            # # 05_22_2024 since it was unnecessary
+                            # # and added complexity
                             # encrypt_type_username='google',
                             # encrypt_args_username={
                             #     'project_id': 'teststreamlitauth-412915',
@@ -256,19 +271,27 @@ def main():
                             #     'key_ring_id': 'testkeyring',
                             #     'key_id': 'testkey',
                             #     'kms_credentials': kms_creds},
-                            encrypt_type_cookie='google',
-                            encrypt_args_cookie={
-                                'project_id': 'teststreamlitauth-412915',
-                                'location_id': 'us-central1',
-                                'key_ring_id': 'testkeyring',
-                                'key_id': 'testkey',
-                                'kms_credentials': kms_creds}
-                            )
+                            # # an old version created an encrypted cookie
+                            # # to store the login
+                            # # that was deprecated on 06_03_2024 since it
+                            # # was less secure and I couldn't find good
+                            # # info online about how to do it well
+                            # encrypt_type_cookie='google',
+                            # encrypt_args_cookie={
+                            #     'project_id': 'teststreamlitauth-412915',
+                            #     'location_id': 'us-central1',
+                            #     'key_ring_id': 'testkeyring',
+                            #     'key_id': 'testkey',
+                            #     'kms_credentials': kms_creds}
+                            # )
 
     if ('stauth' in st.session_state and 'authentication_status' in
             st.session_state.stauth.keys()):
         st.write('authentication_status',
                  st.session_state.stauth['authentication_status'])
+    if ('stauth' in st.session_state and 'username' in
+            st.session_state.stauth.keys()):
+        st.write('username', st.session_state.stauth['username'])
 
 
 
