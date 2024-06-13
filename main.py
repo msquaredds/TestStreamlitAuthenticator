@@ -259,7 +259,16 @@ def main():
                                 'dataset': 'test_credentials',
                                 'table_name': 'user_credentials',
                                 'username_col': 'username',
-                                'password_col': 'password'})
+                                'password_col': 'password'},
+                            locked_info_function='bigquery',
+                            locked_info_args={
+                                'bq_creds': st.secrets['BIGQUERY'],
+                                'project': 'teststreamlitauth-412915',
+                                'dataset': 'test_credentials',
+                                'table_name': 'user_credentials',
+                                'username_col': 'username',
+                                'locked_time_col': 'locked_time',
+                                'unlocked_time_col': 'unlocked_time'})
                             # # an old version encrypted the username
                             # # and email, but that was deprecated on
                             # # 05_22_2024 since it was unnecessary
