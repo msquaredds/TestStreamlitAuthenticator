@@ -251,6 +251,23 @@ def main():
             st.error(f"user_error: "
                      f"{st.session_state['stauth']['user_errors']['login']}")
 
+        # some of the arguments for bigquery methods will be the same
+        bq_locked_args = {
+            'bq_creds': st.secrets['BIGQUERY'],
+            'project': 'teststreamlitauth-412915',
+            'dataset': 'test_credentials',
+            'table_name': 'locked_info',
+            'username_col': 'username',
+            'locked_time_col': 'locked_time',
+            'unlocked_time_col': 'unlocked_time'}
+        incorrect_attempts_args = {
+            'bq_creds': st.secrets['BIGQUERY'],
+            'project': 'teststreamlitauth-412915',
+            'dataset': 'test_credentials',
+            'table_name': 'incorrect_attempts',
+            'username_col': 'username',
+            'datetime_col': 'datetime'}
+
         authenticator.login(location='main',
                             password_pull_function='bigquery',
                             password_pull_args={
@@ -261,14 +278,16 @@ def main():
                                 'username_col': 'username',
                                 'password_col': 'password'},
                             locked_info_function='bigquery',
-                            locked_info_args={
-                                'bq_creds': st.secrets['BIGQUERY'],
-                                'project': 'teststreamlitauth-412915',
-                                'dataset': 'test_credentials',
-                                'table_name': 'user_credentials',
-                                'username_col': 'username',
-                                'locked_time_col': 'locked_time',
-                                'unlocked_time_col': 'unlocked_time'})
+                            locked_info_args=bq_locked_args,
+                            store_locked_time_function='bigquery',
+                            store_locked_time_args=bq_locked_args,
+                            store_unlocked_time_function='bigquery',
+                            store_unlocked_time_args=bq_locked_args,
+                            store_incorrect_attempts_function='bigquery',
+                            store_incorrect_attempts_args=incorrect_attempts_args,
+                            pull_incorrect_attempts_function='bigquery',
+                            pull_incorrect_attempts_args=incorrect_attempts_args
+                            )
                             # # an old version encrypted the username
                             # # and email, but that was deprecated on
                             # # 05_22_2024 since it was unnecessary
