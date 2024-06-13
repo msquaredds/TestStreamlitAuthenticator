@@ -251,8 +251,6 @@ def main():
             st.error(f"user_error: "
                      f"{st.session_state['stauth']['user_errors']['login']}")
 
-        st.write("TEST")
-
         authenticator.login(location='main',
                             password_pull_function='bigquery',
                             password_pull_args={
