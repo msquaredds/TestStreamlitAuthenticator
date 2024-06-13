@@ -320,6 +320,16 @@ def main():
     if ('stauth' in st.session_state and 'username' in
             st.session_state.stauth.keys()):
         st.write('username', st.session_state.stauth['username'])
+    if ('stauth' in st.session_state and 'locked_accounts' in
+            st.session_state.stauth.keys()):
+        st.write('locked_accounts', st.session_state.stauth['locked_accounts'])
+    if ('stauth' in st.session_state and 'failed_login_attempts' in
+            st.session_state.stauth.keys()):
+        st.write('locked_accounts',
+                 st.session_state.stauth['failed_login_attempts'])
+    if ('stauth' in st.session_state and 'login_unlock' in
+            st.session_state.stauth.keys()):
+        st.write('locked_accounts', st.session_state.stauth['login_unlock'])
 
 
 
