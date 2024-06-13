@@ -54,7 +54,7 @@ def main():
     # Get Stored Data
     ##########################################################
     # get the stored usernames and emails
-    db_engine = stauth.DBTools()
+    db_engine = stauth.BQTools()
     usernames_indicator, saved_auth_usernames = (
         db_engine.pull_full_column_bigquery(
             bq_creds = st.secrets['BIGQUERY'],
