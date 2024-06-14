@@ -43,6 +43,12 @@ def main():
     # our_credentials is just a file that stores the key info (the service
     # account key, not the KMS key) in a JSON file.
 
+    if ('stauth' in st.session_state and
+            'dev_errors' in st.session_state['stauth'].keys() and
+            'login' in st.session_state['stauth']['dev_errors'].keys()):
+        st.error(f"dev_error: "
+                 f"{st.session_state['stauth']['dev_errors']['login']}")
+
     kms_scopes = ['https://www.googleapis.com/auth/cloudkms']
     kms_creds = service_account.Credentials.from_service_account_info(
         st.secrets['KMS'], scopes=kms_scopes)
@@ -154,6 +160,12 @@ def main():
         st.error(f"user_error: "
                  f"{st.session_state['stauth']['user_errors']['register_user']}")
 
+    if ('stauth' in st.session_state and
+            'dev_errors' in st.session_state['stauth'].keys() and
+            'login' in st.session_state['stauth']['dev_errors'].keys()):
+        st.error(f"dev_error: "
+                 f"{st.session_state['stauth']['dev_errors']['login']}")
+
     authenticator.register_user('main', False,
                                 # # an old version encrypted the username
                                 # # and email, but that was deprecated on
@@ -197,6 +209,12 @@ def main():
     if 'authenticator_user_credentials' in st.session_state:
         st.write('authenticator_user_credentials',
                  st.session_state['authenticator_user_credentials'])
+
+    if ('stauth' in st.session_state and
+            'dev_errors' in st.session_state['stauth'].keys() and
+            'login' in st.session_state['stauth']['dev_errors'].keys()):
+        st.error(f"dev_error: "
+                 f"{st.session_state['stauth']['dev_errors']['login']}")
 
         # # here we tested turning the credentials dictionary into a
         # # dataframe and also making sure that once we put it into a
