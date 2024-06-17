@@ -331,6 +331,9 @@ def main():
     if ('stauth' in st.session_state and 'login_unlock' in
             st.session_state.stauth.keys()):
         st.write('login_unlock', st.session_state.stauth['login_unlock'])
+    if ('stauth' in st.session_state and 'login_lock' in
+            st.session_state.stauth.keys()):
+        st.write('login_lock', st.session_state.stauth['login_lock'])
 
 
 
