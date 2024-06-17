@@ -279,18 +279,18 @@ def main():
                             'username_col': 'username',
                             'password_col': 'password'},
                         incorrect_attempts=4,
-                        locked_hours=4,
-                        locked_info_function='bigquery',
-                        locked_info_args=bq_locked_args,
-                        store_locked_time_function='bigquery',
-                        store_locked_time_args=bq_locked_args,
-                        store_unlocked_time_function='bigquery',
-                        store_unlocked_time_args=bq_locked_args,
-                        store_incorrect_attempts_function='bigquery',
-                        store_incorrect_attempts_args=incorrect_attempts_args,
-                        pull_incorrect_attempts_function='bigquery',
-                        pull_incorrect_attempts_args=incorrect_attempts_args
-                        )
+                        locked_hours=4)
+                        # locked_info_function='bigquery',
+                        # locked_info_args=bq_locked_args,
+                        # store_locked_time_function='bigquery',
+                        # store_locked_time_args=bq_locked_args,
+                        # store_unlocked_time_function='bigquery',
+                        # store_unlocked_time_args=bq_locked_args,
+                        # store_incorrect_attempts_function='bigquery',
+                        # store_incorrect_attempts_args=incorrect_attempts_args,
+                        # pull_incorrect_attempts_function='bigquery',
+                        # pull_incorrect_attempts_args=incorrect_attempts_args
+                        # )
                         # # an old version encrypted the username
                         # # and email, but that was deprecated on
                         # # 05_22_2024 since it was unnecessary
