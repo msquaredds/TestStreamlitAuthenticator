@@ -279,7 +279,7 @@ def main():
                             'username_col': 'username',
                             'password_col': 'password'},
                         incorrect_attempts=4,
-                        locked_hours=4)
+                        locked_hours=1)
                         # locked_info_function='bigquery',
                         # locked_info_args=bq_locked_args,
                         # store_locked_time_function='bigquery',
