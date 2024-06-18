@@ -239,7 +239,7 @@ def main():
         st.error(f"user_error: "
                  f"{st.session_state['stauth']['user_errors']['login']}")
 
-    # if not authenticator.check_authentication_status():
+    if not authenticator.check_authentication_status():
 
         # # an old version created an encrypted cookie to store the login
         # # that was deprecated on 06_03_2024 since it was less secure
@@ -252,69 +252,69 @@ def main():
         #     'key_id': 'testkey',
         #     'kms_credentials': kms_creds}):
 
-    # some of the arguments for bigquery methods will be the same
-    bq_locked_args = {
-        'bq_creds': st.secrets['BIGQUERY'],
-        'project': 'teststreamlitauth-412915',
-        'dataset': 'test_credentials',
-        'table_name': 'locked_info',
-        'username_col': 'username',
-        'locked_time_col': 'locked_time',
-        'unlocked_time_col': 'unlocked_time'}
-    incorrect_attempts_args = {
-        'bq_creds': st.secrets['BIGQUERY'],
-        'project': 'teststreamlitauth-412915',
-        'dataset': 'test_credentials',
-        'table_name': 'incorrect_attempts',
-        'username_col': 'username',
-        'datetime_col': 'datetime'}
+        # some of the arguments for bigquery methods will be the same
+        bq_locked_args = {
+            'bq_creds': st.secrets['BIGQUERY'],
+            'project': 'teststreamlitauth-412915',
+            'dataset': 'test_credentials',
+            'table_name': 'locked_info',
+            'username_col': 'username',
+            'locked_time_col': 'locked_time',
+            'unlocked_time_col': 'unlocked_time'}
+        incorrect_attempts_args = {
+            'bq_creds': st.secrets['BIGQUERY'],
+            'project': 'teststreamlitauth-412915',
+            'dataset': 'test_credentials',
+            'table_name': 'incorrect_attempts',
+            'username_col': 'username',
+            'datetime_col': 'datetime'}
 
-    authenticator.login(location='main',
-                        password_pull_function='bigquery',
-                        password_pull_args={
-                            'bq_creds': st.secrets['BIGQUERY'],
-                            'project': 'teststreamlitauth-412915',
-                            'dataset': 'test_credentials',
-                            'table_name': 'user_credentials',
-                            'username_col': 'username',
-                            'password_col': 'password'},
-                        incorrect_attempts=4,
-                        locked_hours=1)
-                        # locked_info_function='bigquery',
-                        # locked_info_args=bq_locked_args,
-                        # store_locked_time_function='bigquery',
-                        # store_locked_time_args=bq_locked_args,
-                        # store_unlocked_time_function='bigquery',
-                        # store_unlocked_time_args=bq_locked_args,
-                        # store_incorrect_attempts_function='bigquery',
-                        # store_incorrect_attempts_args=incorrect_attempts_args,
-                        # pull_incorrect_attempts_function='bigquery',
-                        # pull_incorrect_attempts_args=incorrect_attempts_args
-                        # )
-                        # # an old version encrypted the username
-                        # # and email, but that was deprecated on
-                        # # 05_22_2024 since it was unnecessary
-                        # # and added complexity
-                        # encrypt_type_username='google',
-                        # encrypt_args_username={
-                        #     'project_id': 'teststreamlitauth-412915',
-                        #     'location_id': 'us-central1',
-                        #     'key_ring_id': 'testkeyring',
-                        #     'key_id': 'testkey',
-                        #     'kms_credentials': kms_creds},
-                        # # an old version created an encrypted cookie
-                        # # to store the login
-                        # # that was deprecated on 06_03_2024 since it
-                        # # was less secure and I couldn't find good
-                        # # info online about how to do it well
-                        # encrypt_type_cookie='google',
-                        # encrypt_args_cookie={
-                        #     'project_id': 'teststreamlitauth-412915',
-                        #     'location_id': 'us-central1',
-                        #     'key_ring_id': 'testkeyring',
-                        #     'key_id': 'testkey',
-                        #     'kms_credentials': kms_creds}
-                        # )
+        authenticator.login(location='main',
+                            password_pull_function='bigquery',
+                            password_pull_args={
+                                'bq_creds': st.secrets['BIGQUERY'],
+                                'project': 'teststreamlitauth-412915',
+                                'dataset': 'test_credentials',
+                                'table_name': 'user_credentials',
+                                'username_col': 'username',
+                                'password_col': 'password'},
+                            incorrect_attempts=4,
+                            locked_hours=1,
+                            locked_info_function='bigquery',
+                            locked_info_args=bq_locked_args,
+                            store_locked_time_function='bigquery',
+                            store_locked_time_args=bq_locked_args,
+                            store_unlocked_time_function='bigquery',
+                            store_unlocked_time_args=bq_locked_args,
+                            store_incorrect_attempts_function='bigquery',
+                            store_incorrect_attempts_args=incorrect_attempts_args,
+                            pull_incorrect_attempts_function='bigquery',
+                            pull_incorrect_attempts_args=incorrect_attempts_args
+                            )
+                            # # an old version encrypted the username
+                            # # and email, but that was deprecated on
+                            # # 05_22_2024 since it was unnecessary
+                            # # and added complexity
+                            # encrypt_type_username='google',
+                            # encrypt_args_username={
+                            #     'project_id': 'teststreamlitauth-412915',
+                            #     'location_id': 'us-central1',
+                            #     'key_ring_id': 'testkeyring',
+                            #     'key_id': 'testkey',
+                            #     'kms_credentials': kms_creds},
+                            # # an old version created an encrypted cookie
+                            # # to store the login
+                            # # that was deprecated on 06_03_2024 since it
+                            # # was less secure and I couldn't find good
+                            # # info online about how to do it well
+                            # encrypt_type_cookie='google',
+                            # encrypt_args_cookie={
+                            #     'project_id': 'teststreamlitauth-412915',
+                            #     'location_id': 'us-central1',
+                            #     'key_ring_id': 'testkeyring',
+                            #     'key_id': 'testkey',
+                            #     'kms_credentials': kms_creds}
+                            # )
 
     if ('stauth' in st.session_state and 'authentication_status' in
             st.session_state.stauth.keys()):
@@ -323,9 +323,6 @@ def main():
     if ('stauth' in st.session_state and 'username' in
             st.session_state.stauth.keys()):
         st.write('username', st.session_state.stauth['username'])
-    if ('stauth' in st.session_state and 'locked_accounts' in
-            st.session_state.stauth.keys()):
-        st.write('locked_accounts', st.session_state.stauth['locked_accounts'])
     if ('stauth' in st.session_state and 'failed_login_attempts' in
             st.session_state.stauth.keys()):
         st.write('failed_login_attempts',
