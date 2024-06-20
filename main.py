@@ -316,6 +316,9 @@ def main():
                             #     'kms_credentials': kms_creds}
                             # )
 
+    else:
+        authenticator.logout()
+
     if ('stauth' in st.session_state and 'authentication_status' in
             st.session_state.stauth.keys()):
         st.write('authentication_status',
