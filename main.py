@@ -43,11 +43,11 @@ def main():
     # our_credentials is just a file that stores the key info (the service
     # account key, not the KMS key) in a JSON file.
 
-    kms_scopes = ['https://www.googleapis.com/auth/cloudkms']
-    kms_creds = service_account.Credentials.from_service_account_info(
-        st.secrets['KMS'], scopes=kms_scopes)
-    # OLD: our_credentials = 'service_account_key_file.json'
-    # OLD: creds = service_account.Credentials.from_service_account_file(
+    # OLD: kms_scopes = ['https://www.googleapis.com/auth/cloudkms']
+    # OLD: kms_creds = service_account.Credentials.from_service_account_info(
+    #     st.secrets['KMS'], scopes=kms_scopes)
+    # OLDER: our_credentials = 'service_account_key_file.json'
+    # OLDER: creds = service_account.Credentials.from_service_account_file(
     #     our_credentials, scopes=scopes)
 
     ##########################################################
@@ -315,6 +315,25 @@ def main():
                             #     'key_id': 'testkey',
                             #     'kms_credentials': kms_creds}
                             # )
+
+        authenticator.forgot_username(
+            location='main',
+            expander=False,
+            username_pull_function='bigquery',
+            username_pull_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials',
+                'table_name': 'user_credentials',
+                'email_col': 'email',
+                'username_col': 'username'},
+            email_user='sendgrid',
+            email_inputs={
+                'website_name': 'SharpShares',
+                'website_email': 'hello@sharpshares.com'},
+            email_creds={'sendgrid_api_key':
+                             st.secrets['SENDGRID']['sendgrid_api_key']}
+        )
 
     else:
         authenticator.logout()
