@@ -330,7 +330,7 @@ def main():
                      f"{st.session_state['stauth']['user_errors']['forgot_username']}")
 
         authenticator.forgot_username(
-            location='test',
+            location='main',
             expander=False,
             username_pull_function='bigquery',
             username_pull_args={
