@@ -320,8 +320,8 @@ def main():
                      f"{st.session_state['stauth']['user_errors']['forgot_username']}")
 
         authenticator.forgot_username(
-            location='test',
-            expander=False,
+            location='main',
+            expander=True,
             username_pull_function='bigquery',
             username_pull_args={
                 'bq_creds': st.secrets['BIGQUERY'],
