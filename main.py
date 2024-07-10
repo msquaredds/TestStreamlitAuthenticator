@@ -144,6 +144,11 @@ def main():
     # separately, but hten tested here too
 
     if ('stauth' in st.session_state and
+            'dev_errors' in st.session_state['stauth'].keys() and
+            'register_user' in st.session_state['stauth']['dev_errors'].keys()):
+        st.error(f"dev_error: "
+                 f"{st.session_state['stauth']['dev_errors']['register_user']}")
+    elif ('stauth' in st.session_state and
           'user_errors' in st.session_state['stauth'].keys() and
           'register_user' in st.session_state['stauth']['user_errors'].keys()):
         st.error(f"user_error: "
@@ -179,12 +184,6 @@ def main():
                                     'project': 'teststreamlitauth-412915',
                                     'dataset': 'test_credentials',
                                     'table_name': 'user_credentials'})
-
-    if ('stauth' in st.session_state and
-            'dev_errors' in st.session_state['stauth'].keys() and
-            'register_user' in st.session_state['stauth']['dev_errors'].keys()):
-        st.error(f"dev_error: "
-                 f"{st.session_state['stauth']['dev_errors']['register_user']}")
 
     if 'authenticator_usernames' in st.session_state:
         st.write('authenticator_usernames',
@@ -230,6 +229,11 @@ def main():
     st.write('---')
 
     if ('stauth' in st.session_state and
+            'dev_errors' in st.session_state['stauth'].keys() and
+            'login' in st.session_state['stauth']['dev_errors'].keys()):
+        st.error(f"dev_error: "
+                 f"{st.session_state['stauth']['dev_errors']['login']}")
+    elif ('stauth' in st.session_state and
           'user_errors' in st.session_state['stauth'].keys() and
           'login' in st.session_state['stauth']['user_errors'].keys()):
         st.error(f"user_error: "
@@ -313,6 +317,12 @@ def main():
                             # )
 
         if ('stauth' in st.session_state and
+                'dev_errors' in st.session_state['stauth'].keys() and
+                'forgot_username' in st.session_state['stauth'][
+                    'dev_errors'].keys()):
+            st.error(f"dev_error: "
+                     f"{st.session_state['stauth']['dev_errors']['forgot_username']}")
+        elif ('stauth' in st.session_state and
               'user_errors' in st.session_state['stauth'].keys() and
               'forgot_username' in st.session_state['stauth'][
                   'user_errors'].keys()):
@@ -337,22 +347,8 @@ def main():
             email_creds={'sendgrid_api_key':
                              st.secrets['SENDGRID']['sendgrid_api_key']})
 
-        # this could be hit but needs to show before the rerun
-        if ('stauth' in st.session_state and
-                'dev_errors' in st.session_state['stauth'].keys() and
-                'forgot_username' in st.session_state['stauth'][
-                    'dev_errors'].keys()):
-            st.error(f"dev_error: "
-                     f"{st.session_state['stauth']['dev_errors']['forgot_username']}")
-
     else:
         authenticator.logout()
-
-    if ('stauth' in st.session_state and
-            'dev_errors' in st.session_state['stauth'].keys() and
-            'login' in st.session_state['stauth']['dev_errors'].keys()):
-        st.error(f"dev_error: "
-                 f"{st.session_state['stauth']['dev_errors']['login']}")
 
     if ('stauth' in st.session_state and 'authentication_status' in
             st.session_state.stauth.keys()):
