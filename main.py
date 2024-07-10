@@ -347,6 +347,10 @@ def main():
             email_creds={'sendgrid_api_key':
                              st.secrets['SENDGRID']['sendgrid_api_key']})
 
+        ##################################################################
+        # TESTED THROUGH PRINTING username IN THE _get_username FUNCTION
+        ##################################################################
+
     else:
         authenticator.logout()
 
