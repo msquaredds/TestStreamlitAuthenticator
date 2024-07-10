@@ -316,6 +316,19 @@ def main():
                             #     'kms_credentials': kms_creds}
                             # )
 
+        if ('stauth' in st.session_state and
+                'dev_errors' in st.session_state['stauth'].keys() and
+                'forgot_username' in st.session_state['stauth'][
+                    'dev_errors'].keys()):
+            st.error(f"dev_error: "
+                     f"{st.session_state['stauth']['dev_errors']['forgot_username']}")
+        elif ('stauth' in st.session_state and
+              'user_errors' in st.session_state['stauth'].keys() and
+              'forgot_username' in st.session_state['stauth'][
+                  'user_errors'].keys()):
+            st.error(f"user_error: "
+                     f"{st.session_state['stauth']['user_errors']['forgot_username']}")
+
         authenticator.forgot_username(
             location='main',
             expander=False,
@@ -332,8 +345,7 @@ def main():
                 'website_name': 'SharpShares',
                 'website_email': 'hello@sharpshares.com'},
             email_creds={'sendgrid_api_key':
-                             st.secrets['SENDGRID']['sendgrid_api_key']}
-        )
+                             st.secrets['SENDGRID']['sendgrid_api_key']})
 
     else:
         authenticator.logout()
