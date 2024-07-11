@@ -329,6 +329,8 @@ def main():
             st.error(f"user_error: "
                      f"{st.session_state['stauth']['user_errors']['forgot_username']}")
 
+        st.write("HI")
+
         with st.expander("Forgot Username"):
             authenticator.forgot_username(
                 location='main',
