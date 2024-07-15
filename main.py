@@ -346,6 +346,19 @@ def main():
             email_creds={'sendgrid_api_key':
                              st.secrets['SENDGRID']['sendgrid_api_key']})
 
+        if ('stauth' in st.session_state and
+                'dev_errors' in st.session_state['stauth'].keys() and
+                'forgot_password' in st.session_state['stauth'][
+                    'dev_errors'].keys()):
+            st.error(f"dev_error: "
+                     f"{st.session_state['stauth']['dev_errors']['forgot_password']}")
+        elif ('stauth' in st.session_state and
+              'user_errors' in st.session_state['stauth'].keys() and
+              'forgot_password' in st.session_state['stauth'][
+                  'user_errors'].keys()):
+            st.error(f"user_error: "
+                     f"{st.session_state['stauth']['user_errors']['forgot_password']}")
+
         authenticator.forgot_password(
             location='main',
             username_pull_function='bigquery',
