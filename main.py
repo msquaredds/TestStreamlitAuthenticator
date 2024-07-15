@@ -329,30 +329,39 @@ def main():
             st.error(f"user_error: "
                      f"{st.session_state['stauth']['user_errors']['forgot_username']}")
 
-        st.write("HI")
+        authenticator.forgot_username(
+            location='main',
+            username_pull_function='bigquery',
+            username_pull_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials',
+                'table_name': 'user_credentials',
+                'email_col': 'email',
+                'username_col': 'username'},
+            email_user='sendgrid',
+            email_inputs={
+                'website_name': 'SharpShares',
+                'website_email': 'hello@sharpshares.com'},
+            email_creds={'sendgrid_api_key':
+                             st.secrets['SENDGRID']['sendgrid_api_key']})
 
-        with st.expander("Forgot Username"):
-            authenticator.forgot_username(
-                location='main',
-                expander=False,
-                username_pull_function='bigquery',
-                username_pull_args={
-                    'bq_creds': st.secrets['BIGQUERY'],
-                    'project': 'teststreamlitauth-412915',
-                    'dataset': 'test_credentials',
-                    'table_name': 'user_credentials',
-                    'email_col': 'email',
-                    'username_col': 'username'},
-                email_user='sendgrid',
-                email_inputs={
-                    'website_name': 'SharpShares',
-                    'website_email': 'hello@sharpshares.com'},
-                email_creds={'sendgrid_api_key':
-                                 st.secrets['SENDGRID']['sendgrid_api_key']})
-
-        ##################################################################
-        # TESTED THROUGH PRINTING username IN THE _get_username FUNCTION
-        ##################################################################
+        authenticator.forgot_password(
+            location='main',
+            username_pull_function='bigquery',
+            username_pull_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials',
+                'table_name': 'user_credentials',
+                'email_col': 'email',
+                'username_col': 'username'},
+            email_user='sendgrid',
+            email_inputs={
+                'website_name': 'SharpShares',
+                'website_email': 'hello@sharpshares.com'},
+            email_creds={'sendgrid_api_key':
+                             st.secrets['SENDGRID']['sendgrid_api_key']})
 
     else:
         authenticator.logout()
