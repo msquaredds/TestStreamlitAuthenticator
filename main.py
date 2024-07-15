@@ -369,6 +369,16 @@ def main():
                 'table_name': 'user_credentials',
                 'email_col': 'email',
                 'username_col': 'username'},
+            password_store_function='bigquery',
+            password_store_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials',
+                'table_name': 'user_credentials',
+                'email_col': 'email',
+                'username_col': 'username',
+                'password_col': 'password',
+                'datetime_col': 'datetime'},
             email_user='sendgrid',
             email_inputs={
                 'website_name': 'SharpShares',
