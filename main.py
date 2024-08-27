@@ -446,6 +446,15 @@ def main():
     if ('stauth' in st.session_state and 'login_lock' in
             st.session_state.stauth.keys()):
         st.write('login_lock', st.session_state.stauth['login_lock'])
+    if ('stauth' in st.session_state and 'new_email' in
+            st.session_state.stauth.keys()):
+        st.write('new_email', st.session_state.stauth['new_email'])
+    if ('stauth' in st.session_state and 'new_username' in
+            st.session_state.stauth.keys()):
+        st.write('new_username', st.session_state.stauth['new_username'])
+    if ('stauth' in st.session_state and 'new_password' in
+            st.session_state.stauth.keys()):
+        st.write('new_password', st.session_state.stauth['new_password'])
 
 
 
