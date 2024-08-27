@@ -375,7 +375,6 @@ def main():
                 'project': 'teststreamlitauth-412915',
                 'dataset': 'test_credentials',
                 'table_name': 'user_credentials',
-                'email_col': 'email',
                 'username_col': 'username',
                 'password_col': 'password',
                 'datetime_col': 'datetime'},
@@ -387,6 +386,47 @@ def main():
                              st.secrets['SENDGRID']['sendgrid_api_key']})
 
     else:
+        if ('stauth' in st.session_state and
+                'dev_errors' in st.session_state['stauth'].keys() and
+                'update_user_info' in st.session_state['stauth'][
+                    'dev_errors'].keys()):
+            st.error(f"dev_error: "
+                     f"{st.session_state['stauth']['dev_errors']['update_user_info']}")
+        elif ('stauth' in st.session_state and
+              'user_errors' in st.session_state['stauth'].keys() and
+              'update_user_info' in st.session_state['stauth'][
+                  'user_errors'].keys()):
+            st.error(f"user_error: "
+                     f"{st.session_state['stauth']['user_errors']['update_user_info']}")
+
+        authenticator.update_user_info(
+            location='main',
+            info_pull_function='bigquery',
+            info_pull_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials',
+                'table_name': 'user_credentials',
+                'col_map': {'email': 'email',
+                            'username': 'username',
+                            'password': 'password'}},
+            info_store_function='bigquery',
+            info_store_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials',
+                'table_name': 'user_credentials',
+                'col_map': {'email': 'email',
+                            'username': 'username',
+                            'password': 'password',
+                            'datetime': 'datetime'}},
+            email_user='sendgrid',
+            email_inputs={
+                'website_name': 'SharpShares',
+                'website_email': 'hello@sharpshares.com'},
+            email_creds={'sendgrid_api_key':
+                             st.secrets['SENDGRID']['sendgrid_api_key']})
+
         authenticator.logout()
 
     if ('stauth' in st.session_state and 'authentication_status' in
