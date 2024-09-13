@@ -386,7 +386,6 @@ def main():
                              st.secrets['SENDGRID']['sendgrid_api_key']})
 
     else:
-        st.write("stauth", st.session_state['stauth'])
         if ('stauth' in st.session_state and
                 'dev_errors' in st.session_state['stauth'].keys() and
                 'update_user_info' in st.session_state['stauth'][
@@ -428,6 +427,19 @@ def main():
             email_creds={'sendgrid_api_key':
                              st.secrets['SENDGRID']['sendgrid_api_key']},
             store_new_info="hi")
+
+        if ('stauth' in st.session_state and
+                'dev_errors' in st.session_state['stauth'].keys() and
+                'update_user_info' in st.session_state['stauth'][
+                    'dev_errors'].keys()):
+            st.error(f"dev_error: "
+                     f"{st.session_state['stauth']['dev_errors']['update_user_info']}")
+        elif ('stauth' in st.session_state and
+              'user_errors' in st.session_state['stauth'].keys() and
+              'update_user_info' in st.session_state['stauth'][
+                  'user_errors'].keys()):
+            st.error(f"user_error: "
+                     f"{st.session_state['stauth']['user_errors']['update_user_info']}")
 
         authenticator.logout()
 
