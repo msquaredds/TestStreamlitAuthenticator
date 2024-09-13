@@ -430,7 +430,7 @@ def main():
                 'website_email': 'hello@sharpshares.com'},
             email_creds={'sendgrid_api_key':
                              st.secrets['SENDGRID']['sendgrid_api_key']},
-            store_new_info="any")
+            store_new_info=None)
 
         if ('stauth' in st.session_state and
                 'dev_errors' in st.session_state['stauth'].keys() and
