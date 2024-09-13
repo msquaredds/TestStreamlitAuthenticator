@@ -386,6 +386,7 @@ def main():
                              st.secrets['SENDGRID']['sendgrid_api_key']})
 
     else:
+        st.write("stauth", st.session_state['stauth'])
         if ('stauth' in st.session_state and
                 'dev_errors' in st.session_state['stauth'].keys() and
                 'update_user_info' in st.session_state['stauth'][
