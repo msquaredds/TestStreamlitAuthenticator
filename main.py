@@ -386,18 +386,22 @@ def main():
                              st.secrets['SENDGRID']['sendgrid_api_key']})
 
     else:
+        update_user_info_dev_error = False
+        update_user_info_user_error = False
         if ('stauth' in st.session_state and
                 'dev_errors' in st.session_state['stauth'].keys() and
                 'update_user_info' in st.session_state['stauth'][
                     'dev_errors'].keys()):
             st.error(f"dev_error: "
                      f"{st.session_state['stauth']['dev_errors']['update_user_info']}")
+            update_user_info_dev_error = True
         elif ('stauth' in st.session_state and
               'user_errors' in st.session_state['stauth'].keys() and
               'update_user_info' in st.session_state['stauth'][
                   'user_errors'].keys()):
             st.error(f"user_error: "
                      f"{st.session_state['stauth']['user_errors']['update_user_info']}")
+            update_user_info_user_error = True
 
         authenticator.update_user_info(
             location='main',
@@ -431,13 +435,15 @@ def main():
         if ('stauth' in st.session_state and
                 'dev_errors' in st.session_state['stauth'].keys() and
                 'update_user_info' in st.session_state['stauth'][
-                    'dev_errors'].keys()):
+                    'dev_errors'].keys() and
+                not update_user_info_dev_error):
             st.error(f"dev_error: "
                      f"{st.session_state['stauth']['dev_errors']['update_user_info']}")
         elif ('stauth' in st.session_state and
               'user_errors' in st.session_state['stauth'].keys() and
               'update_user_info' in st.session_state['stauth'][
-                  'user_errors'].keys()):
+                  'user_errors'].keys() and
+              not update_user_info_user_error):
             st.error(f"user_error: "
                      f"{st.session_state['stauth']['user_errors']['update_user_info']}")
 
