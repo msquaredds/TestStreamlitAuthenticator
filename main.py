@@ -400,7 +400,7 @@ def main():
                      f"{st.session_state['stauth']['user_errors']['update_user_info']}")
 
         authenticator.update_user_info(
-            location='hi',
+            location='main',
             info_pull_function='bigquery',
             info_pull_args={
                 'bq_creds': st.secrets['BIGQUERY'],
