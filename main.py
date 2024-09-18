@@ -70,7 +70,7 @@ def main():
             'website_email': 'hello@sharpshares.com'},
         email_creds={'sendgrid_api_key':
                          st.secrets['SENDGRID']['sendgrid_api_key']},
-        save_pull_function='bigquery',
+        save_pull_function='hi',
         save_pull_args={
             'bq_creds': st.secrets['BIGQUERY'],
             'project': 'teststreamlitauth-412915',
