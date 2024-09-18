@@ -59,27 +59,29 @@ def main():
     ##########################################################
     # Class Instantiation
     ##########################################################
-    authenticator = stauth.Authenticate(
-        usernames_session_state='authenticator_usernames',
-        emails_session_state='authenticator_emails',
-        user_credentials_session_state='authenticator_user_credentials',
-        preauthorized_session_state=None,
-        email_user='sendgrid',
-        email_inputs={
-            'website_name': 'SharpShares',
-            'website_email': 'hello@sharpshares.com'},
-        email_creds={'sendgrid_api_key':
-                         st.secrets['SENDGRID']['sendgrid_api_key']},
-        save_pull_function='bigquery',
-        save_pull_args={
-            'bq_creds': st.secrets['BIGQUERY'],
-            'project': 'teststreamlitauth-412915',
-            'dataset': 'test_credentials'})
-
-    # there are only dev errors for class instantiation and they wouldn't
-    # need to show up ahead of time, just if they occur during
-    # instantiation
-    sterr.display_error('dev_errors', 'class_instantiation')
+    try:
+        authenticator = stauth.Authenticate(
+            usernames_session_state='authenticator_usernames',
+            emails_session_state='authenticator_emails',
+            user_credentials_session_state='authenticator_user_credentials',
+            preauthorized_session_state=None,
+            email_user='sendgrid',
+            email_inputs={
+                'website_name': 'SharpShares',
+                'website_email': 'hello@sharpshares.com'},
+            email_creds={'sendgrid_api_key':
+                             st.secrets['SENDGRID']['sendgrid_api_key']},
+            save_pull_function='bigquery',
+            save_pull_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials'})
+    except ValueError as e:
+        # there are only dev errors for class instantiation and they
+        # wouldn't need to show up ahead of time, just if they occur
+        # during instantiation
+        sterr.display_error('dev_errors', 'class_instantiation')
+        st.stop()
 
     ##########################################################
     # Register User
