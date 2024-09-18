@@ -64,7 +64,7 @@ def main():
             usernames_session_state='authenticator_usernames',
             emails_session_state='authenticator_emails',
             user_credentials_session_state='authenticator_user_credentials',
-            preauthorized_session_state='hi',
+            preauthorized_session_state=None,
             email_user='sendgrid',
             email_inputs={
                 'website_name': 'SharpShares',
@@ -75,7 +75,7 @@ def main():
             save_pull_args={
                 'bq_creds': st.secrets['BIGQUERY'],
                 'project': 'teststreamlitauth-412915',
-                'dataset': 'test_credentials'})
+                'hi': 'test_credentials'})
     except ValueError as e:
         # there are only dev errors for class instantiation and they
         # wouldn't need to show up ahead of time, just if they occur
