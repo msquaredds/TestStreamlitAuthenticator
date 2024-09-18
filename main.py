@@ -50,7 +50,7 @@ def main():
         st.write("auth_emails", auth_emails)
 
     if 'authenticator_usernames' not in st.session_state:
-        st.session_state['authenticator_usernames'] = auth_usernames
+        st.session_state['authenticator_usernames'] = "hi"
     if 'authenticator_emails' not in st.session_state:
         st.session_state['authenticator_emails'] = auth_emails
     if 'authenticator_preauthorized' not in st.session_state:
