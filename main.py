@@ -50,7 +50,7 @@ def main():
         st.write("auth_emails", auth_emails)
 
     if 'authenticator_usernames' not in st.session_state:
-        st.session_state['authenticator_usernames'] = "hi"
+        st.session_state['authenticator_usernames'] = auth_usernames
     if 'authenticator_emails' not in st.session_state:
         st.session_state['authenticator_emails'] = auth_emails
     if 'authenticator_preauthorized' not in st.session_state:
@@ -63,7 +63,7 @@ def main():
         usernames_session_state='authenticator_usernames',
         emails_session_state='authenticator_emails',
         user_credentials_session_state='authenticator_user_credentials',
-        preauthorized_session_state='authenticator_preauthorized',
+        preauthorized_session_state=None,
         email_user='sendgrid',
         email_inputs={
             'website_name': 'SharpShares',
