@@ -114,10 +114,6 @@ def main():
         st.write('authenticator_user_credentials',
                  st.session_state['authenticator_user_credentials'])
 
-    ##########################################################
-    # TESTED INIT, STILL NEED TO TEST REGISTER USER FULLY
-    ##########################################################
-
 
 if __name__ == '__main__':
     main()
