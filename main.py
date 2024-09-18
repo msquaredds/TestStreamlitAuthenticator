@@ -64,7 +64,7 @@ def main():
             usernames_session_state='authenticator_usernames',
             emails_session_state='authenticator_emails',
             user_credentials_session_state='authenticator_user_credentials',
-            preauthorized_session_state=None,
+            preauthorized_session_state='hi',
             email_user='sendgrid',
             email_inputs={
                 'website_name': 'SharpShares',
