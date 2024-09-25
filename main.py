@@ -114,6 +114,11 @@ def main():
         st.write('authenticator_user_credentials',
                  st.session_state['authenticator_user_credentials'])
 
+    ##########################################################
+    # NEED TO PUSH NEW LOGIN FUNCTION TO PYPI, UPDATE THIS FILE
+    # AND TEST
+    ##########################################################
+
 
 if __name__ == '__main__':
     main()
