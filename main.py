@@ -143,7 +143,7 @@ def main():
                             incorrect_attempts=4,
                             locked_hours=1,
                             # all_locked_function='bigquery',
-                            # all_locked_args=all_locked_args,
+                            all_locked_args=all_locked_args,
                             # locked_info_function='bigquery',
                             # locked_info_args=all_locked_args,
                             # store_locked_time_function='bigquery',
