@@ -136,14 +136,14 @@ def main():
 
         authenticator.login(location='main',
                             # password_pull_function='bigquery',
-                            password_pull_args={
-                                'table_name': 'user_credentials',
-                                'username_col': 'username',
-                                'password_col': 'password'},
+                            # password_pull_args={
+                            #     'table_name': 'user_credentials',
+                            #     'username_col': 'username',
+                            #     'password_col': 'password'},
                             incorrect_attempts=4,
                             locked_hours=1,
                             # all_locked_function='bigquery',
-                            all_locked_args=all_locked_args,
+                            # all_locked_args=all_locked_args,
                             # locked_info_function='bigquery',
                             # locked_info_args=all_locked_args,
                             # store_locked_time_function='bigquery',
