@@ -142,7 +142,7 @@ def main():
         st.write("test2")
 
         authenticator.login(location='main',
-                            # password_pull_function='bigquery',
+                            password_pull_function='bigquery',
                             password_pull_args={
                                 'bq_creds': st.secrets['BIGQUERY'],
                                 'project': 'teststreamlitauth-412915',
