@@ -130,9 +130,9 @@ def main():
     if not authenticator.check_authentication_status():
         # some of the arguments for bigquery methods will be the same
         all_locked_args = {
-            # 'bq_creds': st.secrets['BIGQUERY'],
-            # 'project': 'teststreamlitauth-412915',
-            # 'dataset': 'test_credentials',
+            'bq_creds': st.secrets['BIGQUERY'],
+            'project': 'teststreamlitauth-412915',
+            'dataset': 'test_credentials',
             'table_name': 'locked_info',
             'username_col': 'username',
             'locked_time_col': 'locked_time',
@@ -160,24 +160,15 @@ def main():
                             locked_hours=1,
                             all_locked_function='bigquery',
                             all_locked_args=all_locked_args,
-                            locked_info_function='bigquery',
-                            locked_info_args=all_locked_args,
-                            store_locked_time_function='bigquery',
-                            store_locked_time_args=all_locked_args,
-                            store_unlocked_time_function='bigquery',
-                            store_unlocked_time_args=all_locked_args,
                             all_incorrect_attempts_function='bigquery',
-                            all_incorrect_attempts_args=all_incorrect_attempts_args,
-                            # store_incorrect_attempts_function='bigquery',
-                            # store_incorrect_attempts_args=all_incorrect_attempts_args,
-                            # pull_incorrect_attempts_function='bigquery',
-                            # pull_incorrect_attempts_args=all_incorrect_attempts_args
+                            all_incorrect_attempts_args=all_incorrect_attempts_args
                             )
 
         sterr.display_error('dev_errors', 'login', False)
         sterr.display_error('user_errors', 'login', False)
     else:
         st.write("User is already logged in")
+
 
 if __name__ == '__main__':
     main()
