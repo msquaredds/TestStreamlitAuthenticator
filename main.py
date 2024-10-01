@@ -148,7 +148,7 @@ def main():
                                 'project': 'teststreamlitauth-412915',
                                 'dataset': 'test_credentials',
                                 'table_name': 'user_credentials',
-                                'username_col': 'username',
+                                # 'username_col': 'username',
                                 'password_col': 'password'},
                             incorrect_attempts=4,
                             locked_hours=1,
