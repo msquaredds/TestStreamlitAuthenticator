@@ -139,6 +139,8 @@ def main():
             'username_col': 'username',
             'datetime_col': 'datetime'}
 
+        st.write("test0")
+
         authenticator.login(location='main',
                             # password_pull_function='bigquery',
                             # password_pull_args={
