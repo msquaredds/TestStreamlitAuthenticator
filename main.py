@@ -139,17 +139,17 @@ def main():
             'username_col': 'username',
             'datetime_col': 'datetime'}
 
-        st.write("test2")
+        st.write("test5")
 
         authenticator.login(location='main',
-                            # password_pull_function='bigquery',
-                            # password_pull_args={
-                            #     'bq_creds': st.secrets['BIGQUERY'],
-                            #     'project': 'teststreamlitauth-412915',
-                            #     'dataset': 'test_credentials',
-                            #     'table_name': 'user_credentials',
-                            #     'username_col': 'username',
-                            #     'password_col': 'password'},
+                            password_pull_function='bigquery',
+                            password_pull_args={
+                                'bq_creds': st.secrets['BIGQUERY'],
+                                'project': 'teststreamlitauth-412915',
+                                'dataset': 'test_credentials',
+                                'table_name': 'user_credentials',
+                                'username_col': 'username',
+                                'password_col': 'password'},
                             incorrect_attempts=4,
                             locked_hours=1,
                             # all_locked_function='bigquery',
@@ -160,8 +160,8 @@ def main():
                             # store_locked_time_args=all_locked_args,
                             # store_unlocked_time_function='bigquery',
                             # store_unlocked_time_args=all_locked_args,
-                            # all_incorrect_attempts_function='bigquery',
-                            # all_incorrect_attempts_args=all_incorrect_attempts_args,
+                            all_incorrect_attempts_function='bigquery',
+                            all_incorrect_attempts_args=all_incorrect_attempts_args,
                             # store_incorrect_attempts_function='bigquery',
                             # store_incorrect_attempts_args=all_incorrect_attempts_args,
                             # pull_incorrect_attempts_function='bigquery',
