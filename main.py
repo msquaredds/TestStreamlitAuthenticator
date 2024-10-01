@@ -74,7 +74,7 @@ def main():
             save_pull_function='bigquery',
             save_pull_args={
                 'bq_creds': st.secrets['BIGQUERY'],
-                'project': 'teststreamlitauth-412915',
+                # 'project': 'teststreamlitauth-412915',
                 'dataset': 'test_credentials'})
     except ValueError as e:
         # there are only dev errors for class instantiation and they
