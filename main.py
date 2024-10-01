@@ -130,11 +130,17 @@ def main():
     if not authenticator.check_authentication_status():
         # some of the arguments for bigquery methods will be the same
         all_locked_args = {
+            'bq_creds': st.secrets['BIGQUERY'],
+            'project': 'teststreamlitauth-412915',
+            'dataset': 'test_credentials',
             'table_name': 'locked_info',
             'username_col': 'username',
             'locked_time_col': 'locked_time',
             'unlocked_time_col': 'unlocked_time'}
         all_incorrect_attempts_args = {
+            'bq_creds': st.secrets['BIGQUERY'],
+            'project': 'teststreamlitauth-412915',
+            'dataset': 'test_credentials',
             'table_name': 'incorrect_attempts',
             'username_col': 'username',
             'datetime_col': 'datetime'}
