@@ -70,12 +70,12 @@ def main():
                 'website_name': 'SharpShares',
                 'website_email': 'hello@sharpshares.com'},
             email_creds={'sendgrid_api_key':
-                             st.secrets['SENDGRID']['sendgrid_api_key']},
-            save_pull_function='bigquery',
-            save_pull_args={
-                'bq_creds': st.secrets['BIGQUERY'],
-                'project': 'teststreamlitauth-412915',
-                'dataset': 'test_credentials'})
+                             st.secrets['SENDGRID']['sendgrid_api_key']},)
+            # save_pull_function='bigquery',
+            # save_pull_args={
+            #     'bq_creds': st.secrets['BIGQUERY'],
+            #     'project': 'teststreamlitauth-412915',
+            #     'dataset': 'test_credentials'})
     except ValueError as e:
         # there are only dev errors for class instantiation and they
         # wouldn't need to show up ahead of time, just if they occur
@@ -94,14 +94,14 @@ def main():
     # most of the arguments were already passed to the class instantiation
     authenticator.register_user(
         'main',
-        # cred_save_function='bigquery',
-        cred_save_args={'table_name': 'user_credentials', "hi": "hi"})
-                        # 'bq_creds': st.secrets['BIGQUERY'],
-                        # 'project': 'teststreamlitauth-412915',
-                        # 'dataset': 'test_credentials',
-                        # })
+        cred_save_function='bigquery',
+        cred_save_args={'table_name': 'user_credentials',
+                        'bq_creds': st.secrets['BIGQUERY'],
+                        'project': 'teststreamlitauth-412915',
+                        'dataset': 'test_credentials',
+                        })
 
-    st.write("test6")
+    st.write("test7")
 
     sterr.display_error('dev_errors', 'register_user', False)
     sterr.display_error('user_errors', 'register_user', False)
