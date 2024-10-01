@@ -93,13 +93,13 @@ def main():
 
     # most of the arguments were already passed to the class instantiation
     authenticator.register_user(
-        'main',)
+        'main',
         # cred_save_function='bigquery',
-        # cred_save_args={'table_name': 'user_credentials',
-        #                 'bq_creds': st.secrets['BIGQUERY'],
-        #                 'project': 'teststreamlitauth-412915',
-        #                 'dataset': 'test_credentials',
-        #                 })
+        cred_save_args={'table_name': 'user_credentials',})
+                        # 'bq_creds': st.secrets['BIGQUERY'],
+                        # 'project': 'teststreamlitauth-412915',
+                        # 'dataset': 'test_credentials',
+                        # })
 
     st.write("test6")
 
