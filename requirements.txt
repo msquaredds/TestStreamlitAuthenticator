@@ -1,6 +1,6 @@
 --extra-index-url https://test.pypi.org/simple/
 streamlit>=1.13.0
-StreamlitAuth==0.4.18
+StreamlitAuth==0.4.19
 pandas>=2.2.1
 google-auth-oauthlib>=1.2.0
 google-auth>=2.27.0
