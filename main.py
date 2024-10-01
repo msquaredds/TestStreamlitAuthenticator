@@ -101,7 +101,7 @@ def main():
                         'dataset': 'test_credentials'
                         })
 
-    st.write("test2")
+    st.write("test3")
 
     sterr.display_error('dev_errors', 'register_user', False)
     sterr.display_error('user_errors', 'register_user', False)
