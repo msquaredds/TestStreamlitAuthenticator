@@ -145,11 +145,11 @@ def main():
                             password_pull_function='bigquery',
                             password_pull_args={
                                 'bq_creds': st.secrets['BIGQUERY'],
-                                # 'project': 'teststreamlitauth-412915',
+                                'project': 'teststreamlitauth-412915',
                                 'dataset': 'test_credentials',
                                 'table_name': 'user_credentials',
                                 'username_col': 'username',
-                                'password_col': 'password'},
+                                'password_col': 'password', "hi": "hi"},
                             incorrect_attempts=4,
                             locked_hours=1,
                             # all_locked_function='bigquery',
