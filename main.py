@@ -76,6 +76,7 @@ def main():
                 'bq_creds': st.secrets['BIGQUERY'],
                 # 'project': 'teststreamlitauth-412915',
                 'dataset': 'test_credentials'})
+        st.write("test1")
     except ValueError as e:
         # there are only dev errors for class instantiation and they
         # wouldn't need to show up ahead of time, just if they occur
