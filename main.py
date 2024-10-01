@@ -145,7 +145,7 @@ def main():
             'username_col': 'username',
             'datetime_col': 'datetime'}
 
-        st.write("test6")
+        st.write("test7")
 
         authenticator.login(location='main',
                             password_pull_function='bigquery',
@@ -162,10 +162,10 @@ def main():
                             all_locked_args=all_locked_args,
                             locked_info_function='bigquery',
                             locked_info_args=all_locked_args,
-                            # store_locked_time_function='bigquery',
-                            # store_locked_time_args=all_locked_args,
-                            # store_unlocked_time_function='bigquery',
-                            # store_unlocked_time_args=all_locked_args,
+                            store_locked_time_function='bigquery',
+                            store_locked_time_args=all_locked_args,
+                            store_unlocked_time_function='bigquery',
+                            store_unlocked_time_args=all_locked_args,
                             all_incorrect_attempts_function='bigquery',
                             all_incorrect_attempts_args=all_incorrect_attempts_args,
                             # store_incorrect_attempts_function='bigquery',
