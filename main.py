@@ -163,7 +163,8 @@ def main():
                             locked_info_function='bigquery',
                             locked_info_args={
                                 'bq_creds': st.secrets['BIGQUERY'],
-                                # 'project': 'teststreamlitauth-412915',
+                                'project': 'teststreamlitauth-412915',
+                                'hi': 'hi',
                                 'dataset': 'test_credentials',
                                 'table_name': 'locked_info',
                                 'username_col': 'username',
