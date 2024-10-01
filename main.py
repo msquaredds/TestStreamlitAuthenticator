@@ -96,12 +96,13 @@ def main():
         'main',
         cred_save_function='bigquery',
         cred_save_args={'table_name': 'user_credentials',
-                        # 'bq_creds': st.secrets['BIGQUERY'],
+                        'bq_creds': st.secrets['BIGQUERY'],
                         'project': 'teststreamlitauth-412915',
-                        'dataset': 'test_credentials'
+                        'dataset': 'test_credentials',
+                        'hi': 'hi'
                         })
 
-    st.write("test4")
+    st.write("test5")
 
     sterr.display_error('dev_errors', 'register_user', False)
     sterr.display_error('user_errors', 'register_user', False)
