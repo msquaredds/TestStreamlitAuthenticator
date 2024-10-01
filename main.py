@@ -70,12 +70,12 @@ def main():
                 'website_name': 'SharpShares',
                 'website_email': 'hello@sharpshares.com'},
             email_creds={'sendgrid_api_key':
-                             st.secrets['SENDGRID']['sendgrid_api_key']},)
-            # save_pull_function='bigquery',
-            # save_pull_args={
-            #     'bq_creds': st.secrets['BIGQUERY'],
-            #     'project': 'teststreamlitauth-412915',
-            #     'dataset': 'test_credentials'})
+                             st.secrets['SENDGRID']['sendgrid_api_key']},
+            save_pull_function='bigquery',
+            save_pull_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials'})
     except ValueError as e:
         # there are only dev errors for class instantiation and they
         # wouldn't need to show up ahead of time, just if they occur
@@ -145,7 +145,7 @@ def main():
             'username_col': 'username',
             'datetime_col': 'datetime'}
 
-        st.write("test8")
+        st.write("test9")
 
         authenticator.login(location='main',
                             password_pull_function='bigquery',
@@ -158,16 +158,8 @@ def main():
                                 'password_col': 'password'},
                             incorrect_attempts=4,
                             locked_hours=1,
-                            all_locked_function='bigquery',
-                            all_locked_args={
-                                'bq_creds': st.secrets['BIGQUERY'],
-                                'project': 'teststreamlitauth-412915',
-                                'dataset': 'test_credentials',
-                                'table_name': 'locked_info',
-                                'username_col': 'username',
-                                'locked_time_col': 'locked_time',
-                                'unlocked_time_col': 'unlocked_time',
-                                'hi': 'hi'},
+                            # all_locked_function='bigquery',
+                            # all_locked_args=all_locked_args,
                             # locked_info_function='bigquery',
                             # locked_info_args=all_locked_args,
                             # store_locked_time_function='bigquery',
