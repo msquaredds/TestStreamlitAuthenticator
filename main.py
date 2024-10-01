@@ -70,12 +70,12 @@ def main():
                 'website_name': 'SharpShares',
                 'website_email': 'hello@sharpshares.com'},
             email_creds={'sendgrid_api_key':
-                             st.secrets['SENDGRID']['sendgrid_api_key']},)
-            # save_pull_function='bigquery',
-            # save_pull_args={
-            #     'bq_creds': st.secrets['BIGQUERY'],
-            #     'project': 'teststreamlitauth-412915',
-            #     'dataset': 'test_credentials'})
+                             st.secrets['SENDGRID']['sendgrid_api_key']},
+            save_pull_function='bigquery',
+            save_pull_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials'})
     except ValueError as e:
         # there are only dev errors for class instantiation and they
         # wouldn't need to show up ahead of time, just if they occur
