@@ -65,12 +65,12 @@ def main():
             emails_session_state='authenticator_emails',
             user_credentials_session_state='authenticator_user_credentials',
             preauthorized_session_state=None,
-            email_user='sendgrid',
-            email_inputs={
-                'website_name': 'SharpShares',
-                'website_email': 'hello@sharpshares.com'},
-            email_creds={'sendgrid_api_key':
-                             st.secrets['SENDGRID']['sendgrid_api_key']},
+            # email_user='sendgrid',
+            # email_inputs={
+            #     'website_name': 'SharpShares',
+            #     'website_email': 'hello@sharpshares.com'},
+            # email_creds={'sendgrid_api_key':
+            #                  st.secrets['SENDGRID']['sendgrid_api_key']},
             save_pull_function='bigquery',
             save_pull_args={
                 'bq_creds': st.secrets['BIGQUERY'],
@@ -177,13 +177,13 @@ def main():
                 'dataset': 'test_credentials',
                 'table_name': 'user_credentials',
                 'email_col': 'email',
-                'username_col': 'username'},)
-            # email_user='sendgrid',
-            # email_inputs={
-            #     'website_name': 'SharpShares',
-            #     'website_email': 'hello@sharpshares.com'},
-            # email_creds={'sendgrid_api_key':
-            #                  st.secrets['SENDGRID']['sendgrid_api_key']})
+                'username_col': 'username'},
+            email_user='sendgrid',
+            email_inputs={
+                'website_name': 'SharpShares',
+                'website_email': 'hello@sharpshares.com'},
+            email_creds={'sendgrid_api_key':
+                             st.secrets['SENDGRID']['sendgrid_api_key']})
 
         st.write("TEST1")
 
