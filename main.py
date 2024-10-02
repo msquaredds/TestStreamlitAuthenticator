@@ -177,13 +177,13 @@ def main():
                 'dataset': 'test_credentials',
                 'table_name': 'user_credentials',
                 'email_col': 'email',
-                'username_col': 'username'},
-            email_user='sendgrid',
-            email_inputs={
-                'website_name': 'SharpShares',
-                'website_email': 'hello@sharpshares.com'},
-            email_creds={'sendgrid_api_key':
-                             st.secrets['SENDGRID']['sendgrid_api_key']})
+                'username_col': 'username'},)
+            # email_user='sendgrid',
+            # email_inputs={
+            #     'website_name': 'SharpShares',
+            #     'website_email': 'hello@sharpshares.com'},
+            # email_creds={'sendgrid_api_key':
+            #                  st.secrets['SENDGRID']['sendgrid_api_key']})
 
         sterr.display_error('dev_errors', 'forgot_username', False)
         sterr.display_error('user_errors', 'forgot_username', False)
