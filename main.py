@@ -94,12 +94,17 @@ def main():
     # most of the arguments were already passed to the class instantiation
     authenticator.register_user(
         'main',
+        email_user='sendgrid',
+        email_inputs={
+            'website_name': 'SharpShares',
+            'website_email': 'hello@sharpshares.com'},
+        email_creds={'sendgrid_api_key':
+                         st.secrets['SENDGRID']['sendgrid_api_key']},
         cred_save_function='bigquery',
         cred_save_args={'table_name': 'user_credentials',
                         'bq_creds': st.secrets['BIGQUERY'],
                         'project': 'teststreamlitauth-412915',
-                        'dataset': 'test_credentials',
-                        })
+                        'dataset': 'test_credentials'})
 
     sterr.display_error('dev_errors', 'register_user', False)
     sterr.display_error('user_errors', 'register_user', False)
@@ -145,22 +150,22 @@ def main():
             'username_col': 'username',
             'datetime_col': 'datetime'}
 
-        authenticator.login(location='main',
-                            password_pull_function='bigquery',
-                            password_pull_args={
-                                'bq_creds': st.secrets['BIGQUERY'],
-                                'project': 'teststreamlitauth-412915',
-                                'dataset': 'test_credentials',
-                                'table_name': 'user_credentials',
-                                'username_col': 'username',
-                                'password_col': 'password'},
-                            incorrect_attempts=4,
-                            locked_hours=1,
-                            all_locked_function='bigquery',
-                            all_locked_args=all_locked_args,
-                            all_incorrect_attempts_function='bigquery',
-                            all_incorrect_attempts_args=all_incorrect_attempts_args
-                            )
+        authenticator.login(
+            location='main',
+            password_pull_function='bigquery',
+            password_pull_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials',
+                'table_name': 'user_credentials',
+                'username_col': 'username',
+                'password_col': 'password'},
+            incorrect_attempts=4,
+            locked_hours=1,
+            all_locked_function='bigquery',
+            all_locked_args=all_locked_args,
+            all_incorrect_attempts_function='bigquery',
+            all_incorrect_attempts_args=all_incorrect_attempts_args)
 
         sterr.display_error('dev_errors', 'login', False)
         sterr.display_error('user_errors', 'login', False)
@@ -175,7 +180,7 @@ def main():
                 'bq_creds': st.secrets['BIGQUERY'],
                 'project': 'teststreamlitauth-412915',
                 'dataset': 'test_credentials',
-                # 'table_name': 'user_credentials',
+                'table_name': 'user_credentials',
                 'email_col': 'email',
                 'username_col': 'username'},
             email_user='sendgrid',
@@ -184,8 +189,6 @@ def main():
                 'website_email': 'hello@sharpshares.com'},
             email_creds={'sendgrid_api_key':
                              st.secrets['SENDGRID']['sendgrid_api_key']})
-
-        st.write("TEST4")
 
         sterr.display_error('dev_errors', 'forgot_username', False)
         sterr.display_error('user_errors', 'forgot_username', False)
