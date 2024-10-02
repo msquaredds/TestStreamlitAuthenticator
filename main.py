@@ -124,10 +124,10 @@ def main():
     ##########################################################
     st.write('---')
 
-    sterr.display_error('dev_errors', 'login')
-    sterr.display_error('user_errors', 'login')
-
     if not authenticator.check_authentication_status():
+        sterr.display_error('dev_errors', 'login')
+        sterr.display_error('user_errors', 'login')
+
         # some of the arguments for bigquery methods will be the same
         all_locked_args = {
             'bq_creds': st.secrets['BIGQUERY'],
@@ -164,8 +164,59 @@ def main():
 
         sterr.display_error('dev_errors', 'login', False)
         sterr.display_error('user_errors', 'login', False)
+
+        sterr.display_error('dev_errors', 'forgot_username')
+        sterr.display_error('user_errors', 'forgot_username')
+
+        authenticator.forgot_username(
+            location='main',
+            username_pull_function='bigquery',
+            username_pull_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials',
+                'table_name': 'user_credentials',
+                'email_col': 'email',
+                'username_col': 'username'},
+            email_user='sendgrid',
+            email_inputs={
+                'website_name': 'SharpShares',
+                'website_email': 'hello@sharpshares.com'},
+            email_creds={'sendgrid_api_key':
+                             st.secrets['SENDGRID']['sendgrid_api_key']})
+
+        sterr.display_error('dev_errors', 'forgot_username', False)
+        sterr.display_error('user_errors', 'forgot_username', False)
+
     else:
-        st.write("User is already logged in")
+        authenticator.logout()
+
+    if ('stauth' in st.session_state and 'authentication_status' in
+            st.session_state.stauth.keys()):
+        st.write('authentication_status',
+                 st.session_state.stauth['authentication_status'])
+    if ('stauth' in st.session_state and 'username' in
+            st.session_state.stauth.keys()):
+        st.write('username', st.session_state.stauth['username'])
+    if ('stauth' in st.session_state and 'failed_login_attempts' in
+            st.session_state.stauth.keys()):
+        st.write('failed_login_attempts',
+                 st.session_state.stauth['failed_login_attempts'])
+    if ('stauth' in st.session_state and 'login_unlock' in
+            st.session_state.stauth.keys()):
+        st.write('login_unlock', st.session_state.stauth['login_unlock'])
+    if ('stauth' in st.session_state and 'login_lock' in
+            st.session_state.stauth.keys()):
+        st.write('login_lock', st.session_state.stauth['login_lock'])
+    if ('stauth' in st.session_state and 'new_email' in
+            st.session_state.stauth.keys()):
+        st.write('new_email', st.session_state.stauth['new_email'])
+    if ('stauth' in st.session_state and 'new_username' in
+            st.session_state.stauth.keys()):
+        st.write('new_username', st.session_state.stauth['new_username'])
+    if ('stauth' in st.session_state and 'new_password' in
+            st.session_state.stauth.keys()):
+        st.write('new_password', st.session_state.stauth['new_password'])
 
 
 if __name__ == '__main__':
