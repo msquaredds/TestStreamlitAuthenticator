@@ -193,6 +193,38 @@ def main():
         sterr.display_error('dev_errors', 'forgot_username', False)
         sterr.display_error('user_errors', 'forgot_username', False)
 
+        sterr.display_error('dev_errors', 'forgot_password')
+        sterr.display_error('user_errors', 'forgot_password')
+
+        authenticator.forgot_password(
+            location='main',
+            username_pull_function='bigquery',
+            username_pull_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials',
+                'table_name': 'user_credentials',
+                'email_col': 'email',
+                'username_col': 'username'},
+            password_store_function='bigquery',
+            password_store_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials',
+                'table_name': 'user_credentials',
+                'username_col': 'username',
+                'password_col': 'password',
+                'datetime_col': 'datetime'},
+            email_user='sendgrid',
+            email_inputs={
+                'website_name': 'SharpShares',
+                'website_email': 'hello@sharpshares.com'},
+            email_creds={'sendgrid_api_key':
+                             st.secrets['SENDGRID']['sendgrid_api_key']})
+
+        sterr.display_error('dev_errors', 'forgot_password', False)
+        sterr.display_error('user_errors', 'forgot_password', False)
+
     else:
         authenticator.logout()
 
