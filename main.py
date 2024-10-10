@@ -170,6 +170,10 @@ def main():
         sterr.display_error('dev_errors', 'login', False)
         sterr.display_error('user_errors', 'login', False)
 
+        ##########################################################
+        # Forgot Username
+        ##########################################################
+
         sterr.display_error('dev_errors', 'forgot_username')
         sterr.display_error('user_errors', 'forgot_username')
 
@@ -192,6 +196,10 @@ def main():
 
         sterr.display_error('dev_errors', 'forgot_username', False)
         sterr.display_error('user_errors', 'forgot_username', False)
+
+        ##########################################################
+        # Forgot Password
+        ##########################################################
 
         sterr.display_error('dev_errors', 'forgot_password')
         sterr.display_error('user_errors', 'forgot_password')
@@ -226,6 +234,50 @@ def main():
         sterr.display_error('user_errors', 'forgot_password', False)
 
     else:
+
+        ##########################################################
+        # Update User Info
+        ##########################################################
+
+        sterr.display_error('dev_errors', 'update_user_info')
+        sterr.display_error('user_errors', 'update_user_info')
+
+        authenticator.update_user_info(
+            location='main',
+            info_pull_function='bigquery',
+            info_pull_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials',
+                'table_name': 'user_credentials',
+                'col_map': {'email': 'email',
+                            'username': 'username',
+                            'password': 'password'}},
+            info_store_function='bigquery',
+            info_store_args={
+                'bq_creds': st.secrets['BIGQUERY'],
+                'project': 'teststreamlitauth-412915',
+                'dataset': 'test_credentials',
+                'table_name': 'user_credentials',
+                'col_map': {'email': 'email',
+                            'username': 'username',
+                            'password': 'password',
+                            'datetime': 'datetime'}},
+            email_user='sendgrid',
+            email_inputs={
+                'website_name': 'SharpShares',
+                'website_email': 'hello@sharpshares.com'},
+            email_creds={'sendgrid_api_key':
+                             st.secrets['SENDGRID']['sendgrid_api_key']},
+            store_new_info='email')
+
+        sterr.display_error('dev_errors', 'update_user_info', False)
+        sterr.display_error('user_errors', 'update_user_info', False)
+
+        ##########################################################
+        # Logout
+        ##########################################################
+
         authenticator.logout()
 
     if ('stauth' in st.session_state and 'authentication_status' in
