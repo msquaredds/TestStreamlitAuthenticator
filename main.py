@@ -280,6 +280,14 @@ def main():
 
         authenticator.logout()
 
+    ##########################################################
+    # Create Preauthorization Codes
+    ##########################################################
+    st.write('---')
+
+    st.button('Create Preauth Codes', on_click=create_preauth_codes)
+
+
     if ('stauth' in st.session_state and 'authentication_status' in
             st.session_state.stauth.keys()):
         st.write('authentication_status',
@@ -306,6 +314,28 @@ def main():
     if ('stauth' in st.session_state and 'new_password' in
             st.session_state.stauth.keys()):
         st.write('new_password', st.session_state.stauth['new_password'])
+
+
+def create_preauth_codes():
+    verifier = stauth.Verification()
+    verifier.preauthorization_code(
+        email=["amelesko@gmail.com",
+               "alex.melesko@msquaredds.com"],
+        code_store_function='bigquery',
+        code_store_args={
+            'bq_creds': st.secrets['BIGQUERY'],
+            'project': 'teststreamlitauth-412915',
+            'dataset': 'test_credentials',
+            'table_name': 'preauthorization_codes',
+            'email_col': 'email',
+            'code_col': 'code'},
+        email_user='sendgrid',
+        email_inputs={
+            'website_name': 'SharpShares',
+            'website_email': 'hello@sharpshares.com'},
+        email_creds={'sendgrid_api_key':
+                         st.secrets['SENDGRID']['sendgrid_api_key']}
+    )
 
 
 if __name__ == '__main__':
