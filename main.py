@@ -91,9 +91,26 @@ def main():
     sterr.display_error('dev_errors', 'register_user')
     sterr.display_error('user_errors', 'register_user')
 
+    # some of the arguments for bigquery methods will be the same
+    all_locked_args_register_user = {
+        'bq_creds': st.secrets['BIGQUERY'],
+        'project': 'teststreamlitauth-412915',
+        'dataset': 'test_credentials',
+        'table_name': 'locked_info_register',
+        'email_col': 'email',
+        'locked_time_col': 'locked_time'}
+    all_incorrect_attempts_args_register_user = {
+        'bq_creds': st.secrets['BIGQUERY'],
+        'project': 'teststreamlitauth-412915',
+        'dataset': 'test_credentials',
+        'table_name': 'incorrect_attempts_register',
+        'email_col': 'email',
+        'datetime_col': 'datetime'}
+
     # most of the arguments were already passed to the class instantiation
     authenticator.register_user(
         'main',
+        preauthorization=True,
         email_user='sendgrid',
         email_inputs={
             'website_name': 'SharpShares',
@@ -104,7 +121,21 @@ def main():
         cred_save_args={'table_name': 'user_credentials',
                         'bq_creds': st.secrets['BIGQUERY'],
                         'project': 'teststreamlitauth-412915',
-                        'dataset': 'test_credentials'})
+                        'dataset': 'test_credentials'},
+        auth_code_pull_function='bigquery',
+        auth_code_pull_args={
+            'bq_creds': st.secrets['BIGQUERY'],
+            'project': 'teststreamlitauth-412915',
+            'dataset': 'test_credentials',
+            'table_name': 'preauthorization_codes',
+            'email_col': 'email',
+            'auth_code_col': 'code'},
+        incorrect_attempts=4,
+        locked_hours=1,
+        all_locked_function='bigquery',
+        all_locked_args=all_locked_args_register_user,
+        all_incorrect_attempts_function='bigquery',
+        all_incorrect_attempts_args=all_incorrect_attempts_args_register_user)
 
     sterr.display_error('dev_errors', 'register_user', False)
     sterr.display_error('user_errors', 'register_user', False)
@@ -134,7 +165,7 @@ def main():
         sterr.display_error('user_errors', 'login')
 
         # some of the arguments for bigquery methods will be the same
-        all_locked_args = {
+        all_locked_args_login = {
             'bq_creds': st.secrets['BIGQUERY'],
             'project': 'teststreamlitauth-412915',
             'dataset': 'test_credentials',
@@ -142,7 +173,7 @@ def main():
             'username_col': 'username',
             'locked_time_col': 'locked_time',
             'unlocked_time_col': 'unlocked_time'}
-        all_incorrect_attempts_args = {
+        all_incorrect_attempts_args_login = {
             'bq_creds': st.secrets['BIGQUERY'],
             'project': 'teststreamlitauth-412915',
             'dataset': 'test_credentials',
@@ -163,9 +194,9 @@ def main():
             incorrect_attempts=4,
             locked_hours=1,
             all_locked_function='bigquery',
-            all_locked_args=all_locked_args,
+            all_locked_args=all_locked_args_login,
             all_incorrect_attempts_function='bigquery',
-            all_incorrect_attempts_args=all_incorrect_attempts_args)
+            all_incorrect_attempts_args=all_incorrect_attempts_args_login)
 
         sterr.display_error('dev_errors', 'login', False)
         sterr.display_error('user_errors', 'login', False)
