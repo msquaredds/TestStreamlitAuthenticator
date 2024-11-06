@@ -127,10 +127,13 @@ def main():
     authenticator.register_user(
         'main',
         preauthorization=True,
+        verify_email=True,
         email_user='sendgrid',
         email_inputs={
             'website_name': 'SharpShares',
-            'website_email': 'hello@sharpshares.com'},
+            'website_email': 'hello@sharpshares.com',
+            'verification_url':
+                'https://test-stuser.streamlit.app/verify/'},
         email_creds={'sendgrid_api_key':
                          st.secrets['SENDGRID']['sendgrid_api_key']},
         cred_save_function='bigquery',
