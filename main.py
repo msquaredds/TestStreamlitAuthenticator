@@ -48,14 +48,29 @@ def main():
     else:
         auth_emails = list(saved_auth_emails.values)
         st.write("auth_emails", auth_emails)
+    pre_auth_indicator, saved_pre_auth_emails = (
+        db_engine.pull_full_column_bigquery(
+            bq_creds = st.secrets['BIGQUERY'],
+            project = 'teststreamlitauth-412915',
+            dataset = 'test_credentials',
+            table_name = 'preauthorization_codes',
+            target_col = 'email'))
+    if pre_auth_indicator == 'dev_errors':
+        st.error(saved_pre_auth_emails)
+        pre_auth_emails = []
+    elif pre_auth_indicator == 'user_errors':
+        st.error("No preauthorization emails found")
+        pre_auth_emails = []
+    else:
+        pre_auth_emails = list(saved_pre_auth_emails.values)
+        st.write("pre_auth_emails", pre_auth_emails)
 
     if 'authenticator_usernames' not in st.session_state:
         st.session_state['authenticator_usernames'] = auth_usernames
     if 'authenticator_emails' not in st.session_state:
         st.session_state['authenticator_emails'] = auth_emails
     if 'authenticator_preauthorized' not in st.session_state:
-        st.session_state['authenticator_preauthorized'] = [
-            'alex.melesko@msquaredds.com']
+        st.session_state['authenticator_preauthorized'] = pre_auth_emails
 
     ##########################################################
     # Class Instantiation
