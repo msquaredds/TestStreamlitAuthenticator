@@ -81,7 +81,7 @@ def main():
             emails_session_state='authenticator_emails',
             user_credentials_session_state='authenticator_user_credentials',
             preauthorized_session_state='authenticator_preauthorized',
-            email_user='sendgrid',
+            email_function='sendgrid',
             email_inputs={
                 'website_name': 'SharpShares',
                 'website_email': 'hello@sharpshares.com'},
@@ -128,7 +128,7 @@ def main():
         'main',
         preauthorization=True,
         verify_email=True,
-        email_user='sendgrid',
+        email_function='sendgrid',
         email_inputs={
             'website_name': 'SharpShares',
             'website_email': 'hello@sharpshares.com',
@@ -237,7 +237,7 @@ def main():
                 'table_name': 'user_credentials',
                 'email_col': 'email',
                 'username_col': 'username'},
-            email_user='sendgrid',
+            email_function='sendgrid',
             email_inputs={
                 'website_name': 'SharpShares',
                 'website_email': 'hello@sharpshares.com'},
@@ -273,7 +273,7 @@ def main():
                 'username_col': 'username',
                 'password_col': 'password',
                 'datetime_col': 'datetime'},
-            email_user='sendgrid',
+            email_function='sendgrid',
             email_inputs={
                 'website_name': 'SharpShares',
                 'website_email': 'hello@sharpshares.com'},
@@ -313,7 +313,7 @@ def main():
                             'username': 'username',
                             'password': 'password',
                             'datetime': 'datetime'}},
-            email_user='sendgrid',
+            email_function='sendgrid',
             email_inputs={
                 'website_name': 'SharpShares',
                 'website_email': 'hello@sharpshares.com'},
@@ -379,7 +379,7 @@ def create_preauth_codes():
             'table_name': 'preauthorization_codes',
             'email_col': 'email',
             'code_col': 'code'},
-        email_user='sendgrid',
+        email_function='sendgrid',
         email_inputs={
             'website_name': 'SharpShares',
             'website_email': 'hello@sharpshares.com'},
