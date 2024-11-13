@@ -17,8 +17,8 @@ def main():
                        f'font-weight: bold;">{title_writing}</p>'
         st.markdown(title_format, unsafe_allow_html=True)
 
-    pages = [st.Page("/NavPages/Authentication.py", title="Authentication"),
-             st.Page("/NavPages/EmailVerification.py",
+    pages = [st.Page("../NavPages/Authentication.py", title="Authentication"),
+             st.Page("../NavPages/EmailVerification.py",
                      title="Email Verification")]
     pg = st.navigation(pages)
     pg.run()
