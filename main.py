@@ -8,7 +8,7 @@ import streamlit as st
 
 
 def main():
-    st.set_page_config(page_title="StUser Testing")
+    st.set_page_config(page_title="StUser Testing", layout="wide")
     title_cols = st.columns(3)
     with title_cols[1]:
         title_writing = "StUser Testing"
