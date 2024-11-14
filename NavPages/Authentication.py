@@ -134,7 +134,7 @@ def main():
             'website_email': 'hello@sharpshares.com',
             'verification_url':
                 'https://test-stuser.streamlit.app/EmailVerification/'},
-        email_creds={'sendgrid_api_key':s
+        email_creds={'sendgrid_api_key':
                          st.secrets['SENDGRID']['sendgrid_api_key']},
         cred_save_function='bigquery',
         cred_save_args={'table_name': 'user_credentials',
