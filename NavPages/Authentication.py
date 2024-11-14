@@ -133,7 +133,7 @@ def main():
             'website_name': 'SharpShares',
             'website_email': 'hello@sharpshares.com',
             'verification_url':
-                'https://teststuser.streamlit.app/EmailVerification/'},
+                'https://teststuser.streamlit.app/EmailVerification'},
         email_creds={'sendgrid_api_key':
                          st.secrets['SENDGRID']['sendgrid_api_key']},
         cred_save_function='bigquery',
