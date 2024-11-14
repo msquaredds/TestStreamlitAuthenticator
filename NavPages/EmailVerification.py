@@ -34,9 +34,15 @@ def main():
     #     st.error(e)
 
     if ('stauth' in st.session_state and 'email_verified' in
-            st.session_state.stauth):
+            st.session_state.stauth and st.session_state.stauth[
+                'email_verified']):
         st.success("Email Verified!\n\n"
                    "You can now login and use the website.")
+    elif ('stauth' in st.session_state and 'email_verified' in
+            st.session_state.stauth and not st.session_state.stauth[
+                'email_verified']):
+        st.error("Email Code incorrect, please try again or contact your "
+                 "administrator.")
 
 
 if __name__ == '__page__':
