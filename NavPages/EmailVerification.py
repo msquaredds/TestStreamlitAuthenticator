@@ -8,7 +8,7 @@ def main():
     try:
         verifier.verify_email(
             email_code_pull_function='bigquery',
-            code_store_args={
+            email_code_pull_args={
                 'bq_creds': st.secrets['BIGQUERY'],
                 'project': 'teststreamlitauth-412915',
                 'dataset': 'test_credentials',
